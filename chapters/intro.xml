@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: 77f5f3b3a8bbe1ad7727201c7603d1419dd7840f Maintainer: Mostafa Status: ready -->
+ <chapter xml:id="introduction" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+   <titleabbrev>مقدمه</titleabbrev>
+   <title>PHP چیست و چه کاری می تواند انجام دهد؟</title>
+  </info>
+
+  <section xml:id="intro-whatis" annotations="chunk:false">
+   <info><title>PHP چیست؟</title></info>
+   <para>
+    <acronym>PHP</acronym> (مخفف بازگشتی (recursive acronym) <emphasis>PHP: Hypertext
+    Preprocessor</emphasis>) یک زبان اسکریپت‌نویسی متن‌باز و همه‌منظوره است که به‌طور گسترده مورد استفاده قرار می‌گیرد، به‌ویژه برای توسعه وب مناسب است و می‌تواند درون HTML قرارگیرد.
+   </para>
+   <para>
+    عالیه، اما این یعنی چی؟ مثال:
+   </para>
+   <para>
+    <example>
+     <info><title>یک مثال مقدماتی</title></info>
+     <programlisting role="php">
+<![CDATA[
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example</title>
+    </head>
+    <body>
+
+        <?php
+            echo "Hi, I'm a PHP script!";
+        ?>
+
+    </body>
+</html>
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <para>
+    به جای استفاده از تعداد زیادی دستور برای خروجی گرفتن HTML (همان‌طور که در C یا Perl دیده می‌شود)،
+    صفحات PHP شامل HTML هستند که درون آن‌ها کدی تعبیه شده است که
+    <replaceable>کاری انجام می‌دهد</replaceable> (خروجی ای که در اینجا تولید می کند <computeroutput>Hi, I'm a PHP script!</computeroutput>).
+    کد PHP درون قسمت خاصی قرار می‌گیرد <link
+    linkend="language.basic-syntax.phpmode">دستورات پردازشی شروع و پایان <code>&lt;?php</code> و <code>?&gt;</code></link>
+    که اجازه می‌دهند بین <quote>PHP حالت</quote> و خارج از آن جابه‌جا شوید
+   </para>
+   <para>
+    آنچه PHP را از چیزی مانند JavaScript سمت کاربر متمایز می‌کند این است که کد روی سرور اجرا می‌شود و HTML تولید می‌کند که سپس به سمت کلاینت ارسال می‌شود. کلاینت نتیجه اجرای آن اسکریپت را دریافت می‌کند، اما از کد اصلی آن اطلاعی نخواهد داشت. یک وب‌سرور حتی می‌تواند طوری تنظیم شود که همه فایل‌های HTML را با PHP پردازش کند و در این صورت، هیچ راهی وجود ندارد که کاربران تشخیص دهند از PHP استفاده شده است.
+   </para>
+   <para>
+    بهترین بخش استفاده از PHP این است که برای افراد مبتدی بسیار ساده است، اما برای برنامه‌نویسان حرفه‌ای قابلیت‌های پیشرفته‌ی زیادی ارائه می‌دهد. از خواندن لیست طولانی ویژگی‌های PHP نترسید. با PHP تقریباً هر کسی می‌تواند به سرعت شروع به کار کند و در مدت کوتاهی اسکریپت‌های ساده بنویسد.
+   </para>
+   <para>
+     اگرچه تمرکز توسعه PHP بر اسکریپت‌نویسی سمت سرور است، اما کارهای بسیار بیشتری نیز می‌توان با آن انجام داد. ادامه دهید و موارد بیشتری را در بخش<link linkend="intro-whatcando">PHP چه کاری می‌تواند انجام دهد؟</link> ببینید، یا مستقیماً به <link linkend="tutorial">آموزش مقدماتی</link> بروید تا بلافاصله یادگیری برنامه‌نویسی وب را شروع کنید.
+   </para>
+  </section>
+
+  <section xml:id="intro-whatcando" annotations="chunk:false">
+   <info><title>PHP چه کاری می‌تواند انجام دهد؟</title></info>
+   <para>
+    هر چیزی. PHP عمدتاً بر اسکریپت‌نویسی سمت سرور تمرکز دارد، بنابراین می‌تواند هر کاری را که سایر برنامه‌های CGI می‌توانند انجام دهند انجام دهد، مانند جمع‌آوری داده‌های فرم، تولید محتوای پویا برای صفحات، یا ارسال و دریافت کوکی‌ها. اما PHP می‌تواند کارهای بسیار بیشتری نیز انجام دهد.
+   </para>
+   <para>
+    دو حوزه اصلی وجود دارد که اسکریپت‌های PHP در آن‌ها استفاده می‌شوند.
+    <itemizedlist>
+     <listitem>
+      <simpara>
+       اسکریپت‌نویسی سمت سرور. این رایج‌ترین و اصلی‌ترین حوزه استفاده از PHP است. برای انجام این کار به سه چیز نیاز است: مفسر PHP (به صورت CGI یا ماژول سرور)، یک وب‌سرور، و یک مرورگر وب. همه این‌ها می‌توانند روی یک ماشین محلی اجرا شوند تا فقط برای آزمایش برنامه‌نویسی PHP استفاده شوند. برای اطلاعات بیشتر به بخش <link linkend="install">دستورالعمل‌های نصب</link> مراجعه کنید.
+      </simpara>
+     </listitem>
+     <listitem>
+      <simpara>
+      اسکریپت‌ نویسی خط فرمان(command line). یک اسکریپت PHP می‌تواند بدون نیاز به هیچ سرور یا مرورگری اجرا شود و تنها وجود مفسر PHP برای استفاده به این شکل کافی است. این نوع استفاده برای اسکریپت‌هایی که به‌صورت منظم توسط <command>cron</command> (در Unix یا macOS) یا Task Scheduler (در Windows) اجرا می‌شوند ایده‌آل است. این اسکریپت‌ها همچنین می‌توانند برای انجام وظایف ساده پردازش متن استفاده شوند. برای اطلاعات بیشتر به بخش مربوط به <link linkend="features.commandline">استفاده از PHP در خط فرمان</link> مراجعه کنید.
+      </simpara>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    PHP می‌تواند روی تمام سیستم‌عامل‌های اصلی <link linkend="install">استفاده شود</link>، از جمله Linux، بسیاری از نسخه‌های Unix (از جمله HP-UX، Solaris و OpenBSD)، Microsoft Windows، macOS، RISC OS و احتمالاً سیستم‌های دیگر. PHP همچنین از بیشتر وب‌سرورهای امروزی پشتیبانی می‌کند. این شامل Apache، IIS و بسیاری دیگر می‌شود. همچنین هر وب‌سروری که بتواند از باینری FastCGI PHP استفاده کند، مانند lighttpd و nginx نیز پشتیبانی می‌شود. PHP می‌تواند هم به‌صورت ماژول و هم به‌عنوان پردازشگر CGI عمل کند.
+   </para>
+   <para>
+   بنابراین با PHP، توسعه‌دهندگان آزادی انتخاب سیستم‌عامل و وب‌سرور را دارند. علاوه بر این، آن‌ها همچنین می‌توانند بین استفاده از برنامه‌نویسی رویه‌ای یا برنامه‌نویسی شیءگرا (OOP)، یا ترکیبی از هر دو انتخاب کنند.
+   </para>
+   <para>
+    PHP به خروجی گرفتن HTML محدود نیست. قابلیت‌های PHP شامل تولید انواع فایل‌های غنی مانند تصاویر یا فایل‌های PDF، رمزگذاری داده‌ها و ارسال ایمیل است. همچنین می‌تواند به‌راحتی هر نوع متن مانند JSON یا XML را تولید کند. PHP می‌تواند این فایل‌ها را به‌صورت خودکار تولید کرده و به جای نمایش مستقیم، آن‌ها را در سیستم فایل ذخیره کند و به این ترتیب یک کش سمت سرور برای محتوای پویا ایجاد کند.
+   </para>
+   <para>
+    یکی از قوی‌ترین و مهم‌ترین ویژگی‌های PHP، پشتیبانی آن از <link linkend="refs.database">طیف گسترده‌ای از پایگاه‌های داده</link> است. نوشتن یک صفحه وب متصل به پایگاه داده با استفاده از یکی از افزونه‌های مخصوص پایگاه داده (مثلاً برای <link linkend="book.mysqli">mysql</link>) بسیار ساده است، یا می‌توان از یک لایه انتزاعی مانند <link linkend="book.pdo">PDO</link> استفاده کرد، یا از طریق افزونه <link linkend="book.uodbc">ODBC</link> به هر پایگاه داده‌ای که از استاندارد Open Database Connection پشتیبانی می‌کند متصل شد. سایر پایگاه‌های داده نیز ممکن است از <link linkend="book.curl">cURL</link> یا <link linkend="book.sockets">سوکت ها</link> استفاده کنند، مانند CouchDB.
+   </para>
+   <para>
+    PHP همچنین از ارتباط با سایر سرویس‌ها با استفاده از پروتکل‌هایی مانند LDAP، IMAP، SNMP، NNTP، POP3، HTTP، COM (در Windows) و تعداد بی‌شماری پروتکل دیگر پشتیبانی می‌کند. همچنین می‌تواند سوکت‌های شبکه خام را باز کرده و با هر پروتکل دیگری ارتباط برقرار کند. PHP از WDDX برای تبادل داده‌های پیچیده بین تقریباً تمام زبان‌های برنامه‌نویسی وب پشتیبانی می‌کند. در زمینه ارتباط‌پذیری، PHP از ایجاد نمونه (instantiate) اشیای Java و استفاده شفاف از آن‌ها به‌عنوان اشیای PHP نیز پشتیبانی می‌کند.
+   </para>
+   <para>
+    PHP دارای قابلیت‌های مفید <link linkend="refs.basic.text">پردازش متن</link> است که شامل عبارات منظم سازگار با Perl (<link linkend="book.pcre">PCRE</link>) و تعداد زیادی افزونه و ابزار برای <link linkend="refs.xml">تجزیه و دسترسی به اسناد XML</link> می‌شود. PHP همه افزونه‌های XML را بر پایه‌ی مستحکم <link linkend="book.libxml">libxml2</link> استانداردسازی کرده و مجموعه قابلیت‌ها را با افزودن پشتیبانی از <link linkend="book.simplexml">SimpleXML</link>، <link linkend="book.xmlreader">XMLReader</link> و <link linkend="book.xmlwriter">XMLWriter</link> گسترش داده است.
+   </para>
+   <para>
+    و افزونه‌های جالب دیگری نیز وجود دارند که هم به‌صورت <link linkend="extensions">الفبایی</link> و هم بر اساس <link linkend="funcref">دسته‌بندی</link> گروه‌بندی شده‌اند. همچنین <link linkend="install.pecl.intro">افزونه‌های PECL</link> نیز وجود دارند که ممکن است در خود مستندات PHP مستندسازی شده باشند یا نشده باشند، مانند » <link xlink:href="">XDebug</link>.
+   </para>
+   <para>
+    این صفحه برای فهرست کردن تمام قابلیت‌ها و مزایایی که PHP می‌تواند ارائه دهد کافی نیست. ادامه دهید و بخش‌های مربوط به <link linkend="install">نصب PHP</link> را مطالعه کنید و برای توضیح افزونه‌های ذکرشده در اینجا به بخش <link linkend="funcref">مرجع توابع (function
+    reference)</link> مراجعه کنید.
+   </para>
+  </section>
+
+ </chapter>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
