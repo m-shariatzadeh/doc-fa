@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: 1340d3595bde8489ea1385868ffd75471a56999b Maintainer: Mostafa Status: ready -->
+ <chapter xml:id="tutorial" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info><title>یک آموزش ساده</title></info>
+
+  <para>
+  در اینجا می‌خواهیم در قالب یک آموزش کوتاه و ساده، ابتدایی‌ترین مفاهیم PHP را نشان دهیم. این متن فقط به ایجاد صفحات وب پویا با PHP می‌پردازد، هرچند PHP تنها به ایجاد صفحات وب محدود نمی‌شود. برای اطلاعات بیشتر به بخش <link linkend="intro-whatcando">PHP چه کاری می‌تواند انجام دهد؟</link> مراجعه کنید.
+  </para>
+  <para>
+   صفحات وبی که PHP در آن‌ها فعال است، درست مانند صفحات معمولی HTML پردازش می‌شوند و می‌توانید آن‌ها را همان‌گونه که صفحات عادی HTML را ایجاد و ویرایش می‌کنید، ایجاد و ویرایش نمایید.
+  </para>
+
+  <section xml:id="tutorial.firstpage">
+   <info><title>اولین صفحه PHP شما</title></info>
+   <simpara>
+    این آموزش فرض می‌کند که PHP از قبل نصب شده است. دستورالعمل‌های نصب را می‌توان در » <link xlink:href="&url.php.downloads;">صفحه دانلود</link> پیدا کرد.
+   </simpara>
+   <para>
+    فایلی با نام <filename>hello.php</filename> ایجاد کنید و محتوای زیر را در آن قرار دهید:
+   </para>
+   <para>
+    <example>
+     <info><title>اولین اسکریپت PHP ما: <filename>hello.php</filename></title></info>
+     <programlisting role="php">
+<![CDATA[
+<?php
+
+echo "Hello World!";
+
+?>
+]]>
+     </programlisting>
+     <simpara>
+      با استفاده از ترمینال، به پوشه‌ای که این فایل در آن قرار دارد بروید و با دستور زیر یک سرور توسعه (development server) راه‌اندازی کنید:
+     </simpara>
+     <programlisting role="shell">
+<![CDATA[
+php -S localhost:8000
+]]>
+     </programlisting>
+     <simpara>
+      از مرورگر خود برای دسترسی به فایل از طریق آدرس وب‌سرور استفاده کنید و در انتهای آن مسیر فایل <literal>/hello.php</literal> را قرار دهید. طبق دستوری که در مرحله قبل اجرا شد، آدرس به این صورت خواهد بود: <literal>http://localhost:8000/hello.php</literal>. اگر همه چیز به‌درستی پیکربندی شده باشد، این فایل توسط PHP پردازش می‌شود و خروجی «Hello World!» را در مرورگر خود مشاهده خواهید کرد.
+     </simpara>
+     <simpara>
+      PHP می‌تواند درون یک صفحه وب HTML معمولی قرار داده شود. این به این معناست که در داخل سند HTML خود می‌توانید دستورات PHP را بنویسید، همان‌طور که در مثال زیر نشان داده شده است:
+     </simpara>
+     <programlisting role="php">
+<![CDATA[
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP Test</title>
+    </head>
+    <body>
+        <?php echo '<p>Hello World</p>'; ?>
+    </body>
+</html>
+]]>
+     </programlisting>
+     <simpara>
+      این کد در نتیجه خروجی زیر را تولید خواهد کرد:
+     </simpara>
+     <screen role="html">
+<![CDATA[
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP Test</title>
+    </head>
+    <body>
+        <p>Hello World</p>
+    </body>
+</html>
+]]>
+     </screen>
+    </example>
+   </para>
+   <para>
+    این برنامه بسیار ساده است و در واقع نیازی به استفاده از PHP برای ساخت چنین صفحه‌ای نداشتید. تنها کاری که انجام می‌دهد نمایش <literal>Hello World</literal> با استفاده از دستور <function>echo</function> در PHP است. توجه داشته باشید که این فایل <emphasis>نیازی ندارد اجرایی (executable) باشد</emphasis> یا به شکل خاصی تنظیم شده باشد. سرور متوجه می‌شود که این فایل باید توسط PHP تفسیر شود، چون از پسوند ".php" استفاده شده است؛ پسوندی که سرور طوری تنظیم شده که آن را به PHP ارجاع دهد. این را می‌توان مانند یک فایل HTML معمولی در نظر گرفت که فقط مجموعه‌ای از تگ‌های ویژه در اختیار شما قرار می‌دهد که کارهای جالب زیادی انجام می‌دهند.
+   </para>
+
+   <para>
+    هدف این مثال نمایش قالب خاص تگ‌های PHP است. در این مثال از <literal>&lt;?php</literal> برای مشخص کردن شروع تگ PHP استفاده کردیم. سپس دستور PHP را قرار دادیم و با افزودن تگ پایانی <literal>?&gt;</literal> از حالت PHP خارج شدیم. شما می‌توانید در یک فایل HTML هرجا که بخواهید وارد حالت PHP شوید و از آن خارج شوید. برای جزئیات بیشتر، بخش مربوط به <link linkend="language.basic-syntax">
+    سینتکس پایه PHP</link> در مستندات را مطالعه کنید.
+   </para>
+
+   <note>
+    <info><title>نکته: پایان خط ها (Line Feeds)</title></info>
+    <para>
+    درHTML، line feeds اهمیت زیادی ندارد، با این حال بهتر است HTML  خود را با استفاده از line feed ها مرتب و خوانا بنویسید. یک line feed که بلافاصله پس از تگ پایانی <literal>?&gt;</literal> قرار بگیرد توسط PHP حذف می‌شود. این موضوع می‌تواند بسیار مفید باشد زمانی که چندین بلوک PHPیا فایل‌های include شامل PHP دارید که قرار نیست چیزی خروجی بدهند. در عین حال ممکن است کمی گیج‌کننده باشد. شما می‌توانید بعد از تگ پایانی <literal>?&gt;</literal> یک فاصله قرار دهید تا هم فاصله و هم line feed در خروجی چاپ شود، یا اینکه یک line feed را به ‌صورت صریح در آخرین echo/print داخل بلوک PHP قرار دهید.
+    </para>
+   </note>
+
+   <note>
+    <info><title>نکته: ویرایشگر های متنی</title></info>
+    <para>
+    ویرایشگرهای متنی و محیط‌های توسعه یکپارچه (IDE) زیادی وجود دارند که می‌توانید از آن‌ها برای ایجاد، ویرایش و مدیریت فایل‌های PHP استفاده کنید. یک فهرست ناقص از این ابزارها در <link xlink:href="&url.phpeditorlist;">PHP Editors
+     List</link> نگهداری می‌شود. اگر می‌خواهید یک ویرایشگر را پیشنهاد دهید، لطفاً به صفحه بالا مراجعه کنید و از نگهدارنده صفحه بخواهید آن ویرایشگر را به فهرست اضافه کند. داشتن یک ویرایشگر با قابلیت هایلایت سینتکس می‌تواند مفید باشد.
+    </para>
+   </note>
+
+   <note>
+    <info><title>نکته: پردازشگرهای واژه</title></info>
+    <para>
+    پردازشگرهای واژه مانند StarOffice Writer، Microsoft Word و Abiword برای ویرایش فایل‌های PHP مناسب نیستند. اگر می‌خواهید از یکی از آن‌ها برای این اسکریپت آزمایشی استفاده کنید، باید مطمئن شوید که فایل را به‌صورت متن ساده (<emphasis>plain
+     text</emphasis>) ذخیره می‌کنید، در غیر این صورت PHP نمی‌تواند اسکریپت را بخواند و اجرا کند.
+    </para>
+   </note>
+
+   <para>
+    حالا که با موفقیت یک اسکریپت PHP قابل اجرا ایجاد کرده‌اید، وقت آن رسیده که معروف‌ترین اسکریپت PHP را بسازید! یک فراخوانی به تابع <function>phpinfo</function> انجام دهید و شما اطلاعات بسیار مفیدی درباره سیستم و تنظیمات خود خواهید دید، مانند <link linkend="language.variables.predefined">متغیرهای از پیش تعریف‌شده</link> موجود، ماژول‌های PHP بارگذاری‌شده و تنظیمات <link linkend="configuration">پیکربندی</link>. کمی وقت بگذارید و این اطلاعات مهم را بررسی کنید.
+   </para>
+   <para>
+    <example>
+     <info><title>دریافت اطلاعات سیستم از PHP</title></info>
+     <programlisting role="php">
+<![CDATA[
+<?php
+
+phpinfo();
+
+?>
+]]>
+     </programlisting>
+    </example>
+   </para>
+  </section>
+
+  <section xml:id="tutorial.useful">
+   <info><title>چیزهای کاربردی</title></info>
+   <para>
+    حالا بیایید کاری کاربردی‌تر انجام دهیم. می‌خواهیم بررسی کنیم بازدیدکننده از چه نوع مرورگری استفاده می‌کند. برای این کار، رشته‌ی user agent را بررسی می‌کنیم که مرورگر به‌عنوان بخشی از درخواست HTTP ارسال می‌کند. این اطلاعات در یک <link
+    linkend="language.variables">متغیر</link> ذخیره می‌شود. متغیرها در PHP همیشه با علامت دلار ($) شروع می‌شوند. متغیری که در حال حاضر به آن علاقه داریم <varname>$_SERVER['HTTP_USER_AGENT']</varname> است.
+   </para>
+   <note>
+    <para>
+     <varname>$_SERVER</varname> یک متغیر ویژه و رزرو شده در PHP است که شامل تمام اطلاعات وب‌سرور می‌شود. این متغیر به‌عنوان یک سوپرگلوبال (superglobal) شناخته می‌شود. برای اطلاعات بیشتر، صفحه مربوط به <link linkend="language.variables.superglobals">superglobals</link> در مستندات را مشاهده کنید.
+    </para>
+   </note>
+   <para>
+    برای نمایش این متغیر، می‌توانید به‌سادگی این کار را انجام دهید:
+   </para>
+   <para>
+    <example>
+     <info><title>چاپ یک متغیر (عنصر آرایه)</title></info>
+    <programlisting role="php">
+<![CDATA[
+<?php
+
+echo $_SERVER['HTTP_USER_AGENT'];
+
+?>
+]]>
+    </programlisting>
+    <para>
+     یک نمونه خروجی از این اسکریپت می‌تواند به صورت زیر باشد:
+    </para>
+    <screen role="html">
+<![CDATA[
+Mozilla/5.0 (Linux) Firefox/112.0
+]]>
+    </screen>
+   </example>
+   </para>
+   <para>
+   <link linkend="language.types">انواع</link> مختلفی از متغیرها در PHP وجود دارند. در مثال بالا، یک عنصر از یک متغیر آرایه <link linkend="language.types.array">Array</link> را چاپ کردیم. آرایه‌ها می‌توانند بسیار مفید باشند.
+   </para>
+   <para>
+   <varname>$_SERVER</varname> تنها یکی از متغیرهایی است که PHP به‌صورت خودکار در اختیار شما قرار می‌دهد. فهرستی از این متغیرها را می‌توان در بخش <link linkend="reserved.variables">متغیرهای رزرو شده (Reserved Variables)</link> مستندات مشاهده کرد، یا می‌توانید با بررسی خروجی تابع <function>phpinfo</function> که در مثال بخش قبل استفاده شد، فهرست کاملی از آن‌ها را به دست آورید.
+   </para>
+   <para>
+    می‌توانید چندین دستور PHP را داخل یک تگ PHP قرار دهید و بلوک‌های کوچکی از کد ایجاد کنید که کارهایی فراتر از یک دستور echo انجام دهند. برای مثال، اگر بخواهید بررسی کنید که آیا مرورگر Firefox است یا نه، می‌توانید این کار را انجام دهید:
+   </para>
+   <para>
+    <example>
+     <info><title>استفاده از <link linkend="language.control-structures">ساختارهای کنترلی (control
+     structures)</link> و <link linkend="language.functions">توابع</link></title></info>
+     <programlisting role="php">
+<![CDATA[
+<?php
+
+if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
+    echo 'You are using Firefox.';
+}
+
+?>
+]]>
+     </programlisting>
+     <para>
+       یک نمونه خروجی از این اسکریپت می‌تواند به صورت زیر باشد:
+     </para>
+     <screen role="html">
+<![CDATA[
+You are using Firefox.
+]]>
+     </screen>
+    </example>
+   </para>
+   <para>
+    در اینجا چند مفهوم جدید معرفی می‌کنیم. یک دستور <link linkend="control-structures.if">if</link> داریم. اگر با سینتکس پایه‌ای که در زبان C استفاده می‌شود آشنا باشید، این باید برای شما منطقی به نظر برسد. در غیر این صورت، بهتر است یک کتاب مقدماتی PHP تهیه کنید و چند فصل اول آن را بخوانید، یا بخش <link linkend="langref">مرجع زبان (Language Reference)</link> در مستندات را مطالعه کنید.
+   </para>
+   <para>
+    مفهوم دوم که معرفی کردیم، فراخوانی تابع <function>str_contains</function> بود. <function>str_contains</function> یک تابع داخلی در PHP است که تعیین می‌کند آیا یک رشته مشخص شامل رشته دیگری هست یا نه. در اینجا ما به دنبال <literal>'Firefox'</literal> (اصطلاحاً needle یا سوزن) داخل <varname>$_SERVER['HTTP_USER_AGENT']</varname> (اصطلاحاً haystack یا کاه‌دان) هستیم. اگر needle داخل haystack پیدا شود، تابع مقدار true برمی‌گرداند. در غیر این صورت مقدار &false; برمی‌گرداند. اگر مقدار &true; برگردد، عبارت <link linkend="control-structures.if">if</link> به &true; ارزیابی می‌شود و کدی که داخل {آکولادها} قرار دارد اجرا می‌شود. در غیر این صورت، آن کد اجرا نخواهد شد. می‌توانید مثال‌های مشابهی با <link
+    linkend="control-structures.if">if</link>، <link linkend="control-structures.else">else</link> و توابع دیگر مانند <function>strtoupper</function> و <function>strlen</function> ایجاد کنید. هر صفحه مربوط به این توابع در مستندات، شامل مثال‌هایی نیز هست. اگر مطمئن نیستید چگونه از توابع استفاده کنید، بهتر است هم صفحه مربوط به <link linkend="about.prototypes">نحوه خواندن تعریف یک تابع</link> و هم بخش مربوط به <link linkend="language.functions">توابع PHP</link> را مطالعه کنید.
+   </para>
+   <para>
+    می‌توانیم این را یک قدم جلوتر ببریم و نشان دهیم چگونه حتی داخل یک بلوک PHP هم می‌توانید وارد و خارج از حالت PHP شوید:
+   </para>
+   <para>
+    <example>
+     <info><title>ترکیب کردن حالت HTML و PHP</title></info>
+     <programlisting role="php">
+<![CDATA[
+<?php
+if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
+    ?>
+    <h3>str_contains() returned true</h3>
+    <p>You are using Firefox</p>
+    <?php
+} else {
+    ?>
+    <h3>str_contains() returned false</h3>
+    <p>You are not using Firefox</p>
+    <?php
+}
+?>
+]]>
+     </programlisting>
+     <para>
+      یک نمونه خروجی از این اسکریپت می‌تواند به صورت زیر باشد:
+     </para>
+     <screen role="html">
+<![CDATA[
+<h3>str_contains() returned true</h3>
+<p>You are using Firefox</p>
+]]>
+     </screen>
+    </example>
+   </para>
+   <para>
+    به جای استفاده از دستور echo در PHP برای خروجی گرفتن، از حالت PHP خارج شدیم و مستقیماً HTML ارسال کردیم. نکته مهم و قابل توجه این است که جریان منطقی اسکریپت همچنان بدون تغییر باقی می‌ماند. تنها یکی از بلوک‌های HTML بسته به نتیجه تابع <function>str_contains</function> در نهایت برای کاربر ارسال خواهد شد. به عبارت دیگر، این موضوع بستگی دارد به اینکه آیا رشته <literal>Firefox</literal> پیدا شده است یا نه.
+   </para>
+  </section>
+
+  <section xml:id="tutorial.forms">
+   <info><title>کار با فرم‌ها</title></info>
+   <para>
+    یکی از قدرتمندترین قابلیت‌های PHP، نحوه مدیریت فرم‌های HTML است. مفهوم اساسی که باید درک شود این است که هر عنصر فرم به‌صورت خودکار در دسترس اسکریپت‌های PHP شما قرار می‌گیرد. لطفاً برای اطلاعات بیشتر و مثال‌ها درباره استفاده از فرم‌ها در PHP، بخش <link linkend="language.variables.external">متغیرها از منابع خارجی</link> در مستندات را مطالعه کنید. در ادامه یک نمونه فرم HTML آورده شده است:
+   </para>
+   <para>
+    <example>
+     <info><title>یک فرم ساده HTML</title></info>
+     <programlisting role="html">
+<![CDATA[
+<form action="action.php" method="post">
+    <label for="name">Your name:</label>
+    <input name="name" id="name" type="text">
+
+    <label for="age">Your age:</label>
+    <input name="age" id="age" type="number">
+
+    <button type="submit">Submit</button>
+</form>
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <para>
+    هیچ نکته خاصی درباره این فرم وجود ندارد. این یک فرم HTML ساده است که هیچ نوع تگ ویژه‌ای ندارد. وقتی کاربر این فرم را پر می‌کند و دکمه ارسال را می‌زند، صفحه <filename>action.php</filename> فراخوانی می‌شود. در این فایل می‌توانید چیزی شبیه به این بنویسید:
+   </para>
+   <para>
+    <example>
+     <info><title>چاپ داده‌های فرم ما</title></info>
+     <programlisting role="php">
+<![CDATA[
+Hi <?php echo htmlspecialchars($_POST['name']); ?>.
+You are <?php echo (int) $_POST['age']; ?> years old.
+]]>
+     </programlisting>
+     <para>
+      یک نمونه خروجی از این اسکریپت می‌تواند به صورت زیر باشد:
+     </para>
+     <screen role="html">
+<![CDATA[
+Hi Joe. You are 22 years old.
+]]>
+     </screen>
+    </example>
+   </para>
+   <para>
+    به‌جز بخش‌های <function>htmlspecialchars</function> و <literal>(int)</literal>، باید مشخص باشد که این کد چه کاری انجام می‌دهد. تابع <function>htmlspecialchars</function> اطمینان حاصل می‌کند که هر کاراکتری که در HTML خاص است به‌درستی encode شود تا افراد نتوانند تگ‌های HTML یا جاوااسکریپت را به صفحه شما تزریق کنند. برای فیلد age، چون می‌دانیم یک عدد است، می‌توانیم آن را مستقیماً به <type>int</type> <link linkend="language.types.typecasting">تبدیل</link> کنیم که به‌طور خودکار کاراکترهای اضافی را حذف می‌کند. همچنین می‌توانید PHP را طوری تنظیم کنید که این کار را به‌صورت خودکار از طریق افزونه <link linkend="ref.filter">filter</link> انجام دهد. متغیرهای <varname>$_POST['name']</varname> و <varname>$_POST['age']</varname> به‌صورت خودکار توسط PHP برای شما تنظیم می‌شوند. قبلاً از superglobal <varname>$_SERVER</varname> استفاده کردیم؛ در اینجا نیز superglobal <varname>$_POST</varname> را معرفی کردیم که شامل تمام داده‌های ارسال‌شده با POST است. توجه کنید که <emphasis>method</emphasis> فرم ما POST است. اگر از متد <emphasis>GET</emphasis> استفاده می‌کردیم، اطلاعات فرم در superglobal <varname>$_GET</varname> قرار می‌گرفت. همچنین می‌توانید از <varname>$_REQUEST</varname> استفاده کنید اگر برایتان مهم نیست داده از چه منبعی آمده است. این شامل ترکیب اطلاعات GET، POST و COOKIE است.
+   </para>
+  </section>
+
+  <section xml:id="tutorial.whatsnext">
+   <info><title>مرحله بعد چیست؟</title></info>
+   <simpara>
+    با دانشی که اکنون به دست آورده‌اید، باید بتوانید بیشتر مستندات را درک کنید.
+   </simpara>
+   <para>
+    به‌طور خاص ممکن است بخواهید قابلیت‌های زیر را بررسی کنید:
+    <simplelist>
+     <member>خواندن و نوشتن فایل‌ها با <link linkend="book.filesystem">توابع فایل‌سیستم (filesystem functions)</link></member>
+     <member><link linkend="features.file-upload">مدیریت آپلود فایل‌ها</link></member>
+     <member>دریافت صفحات و فایل‌های remote با <link linkend="book.curl">Curl</link></member>
+     <member>
+      ذخیره‌سازی و تحلیل داده‌ها در یک پایگاه داده با <link linkend="book.pdo">PDO</link>
+      (<link linkend="ref.pdo-sqlite">SQLite</link> را می‌توان بدون اجرای سرور پایگاه داده استفاده کرد)
+     </member>
+     <member>نگهداری داده‌ها بین درخواست‌ها با استفاده از <link linkend="book.session">Sessions</link></member>
+    </simplelist>
+   </para>
+   <simpara>
+    مجموعه بزرگی از کتابخانه‌ها و <link xlink:href="&url.packagist;/search/?tags=framework">فریمورک ها</link> برای هر نوع استفاده در <link xlink:href="&url.packagist;">مخزن Packagist</link> وجود دارد که همگی از طریق <link linkend="install.composer.intro">Composer package manager</link> قابل نصب هستند.
+   </simpara>
+   <simpara>
+    برای دریافت کمک و مشاوره از جامعه کاربری، به <link xlink:href="&url.php.support;">صفحه Help</link> مراجعه کنید.
+   </simpara>
+   <simpara>
+    برای مجموعه‌ای از پادکست‌ها، ارائه‌ها و ویدئوهای دیگر، به <link xlink:href="&url.phpctv;">PeerTube کامیونیتی</link> مراجعه کنید.
+   </simpara>
+   <simpara>
+    سایر منابع کامیونیتی که می‌توانند به شما کمک کنند شامل «awesome lists» (فهرست‌های گردآوری‌شده از لینک‌ها) و «developer roadmaps» (فهرست‌هایی از موضوعات مرتبط) هستند.
+   </simpara>
+   <para>
+    وقتی گیر کرده‌اید و نمی‌دانید از کجا شروع کنید، سعی کنید پروژه یا مسئله خود را به بخش‌های کوچک‌تر تقسیم کنید تا راحت‌تر بتوانید ببینید چه چیزهایی را از قبل بلد هستید و چه چیزهایی را باید یاد بگیرید. این فهرست می‌تواند هرقدر لازم باشد عمیق و دقیق باشد. برای مثال، ساخت یک وبلاگ می‌تواند به بخش‌های زیر تقسیم شود:
+    <itemizedlist>
+     <listitem>
+      <simpara>فهرست کردن و مشاهده صفحات</simpara>
+      <itemizedlist>
+       <listitem>
+        <simpara>خواندن رکوردها (صفحات) از یک پایگاه داده</simpara>
+       </listitem>
+      </itemizedlist>
+     </listitem>
+     <listitem>
+      <simpara>ایجاد صفحات</simpara>
+      <itemizedlist>
+       <listitem>
+        <simpara>مدیریت ارسال فرم</simpara>
+       </listitem>
+       <listitem>
+        <simpara>نوشتن رکوردها (صفحات) در یک پایگاه داده</simpara>
+       </listitem>
+      </itemizedlist>
+     </listitem>
+     <listitem>
+      <simpara>ورود ادمین</simpara>
+      <itemizedlist>
+       <listitem>
+        <simpara>خواندن رکوردها (کاربران) از یک پایگاه داده</simpara>
+       </listitem>
+       <listitem>
+        <simpara>مدیریت گذرواژه ها</simpara>
+       </listitem>
+       <listitem>
+        <simpara>نگهداری داده‌ها (ورود کاربر) بین درخواست‌ها / صفحات (sessionها)</simpara>
+       </listitem>
+      </itemizedlist>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <simpara>
+    اگر پروژه خاصی برای ساختن در ذهن ندارید، می‌توانید به دنبال تمرین‌های برنامه‌نویسی مانند کاتاها (katas)، چالش‌ها و «code golf» بگردید. حتی اگر این تمرین‌ها مخصوص PHP نباشند، بیشتر آن‌ها قابل انجام هستند و احتمالاً دانش و طرز فکر شما را به چالش خواهند کشید.
+   </simpara>
+  </section>
+ </chapter>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
