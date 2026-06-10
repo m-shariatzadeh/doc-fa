@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: ee1ce6a0e1875b6851274f8c373ca2bd48630fa0 Maintainer: Mostafa Status: ready -->
+ <chapter xml:id="language.basic-syntax" xmlns="http://docbook.org/ns/docbook" annotations="interactive">
+  <title>سینتکس پایه</title>
+  <sect1 xml:id="language.basic-syntax.phptags">
+   <title>تگ های PHP</title>
+   <para>
+     هنگامی که PHP یک فایل را پردازش می‌کند، تگ‌های آغاز و پایان، یعنی <literal>&lt;?php</literal> و <literal>?&gt;</literal> را برای تعیین محدوده اجرای کد PHP تشخیص می‌دهد. محتوای خارج از این تگ‌ها توسط مفسر PHP نادیده گرفته می‌شود و این امکان را فراهم می‌کند که PHP به‌صورت یکپارچه در انواع مختلف اسناد جاسازی شود.
+   </para>
+
+   <para>
+     پس از <literal>&lt;?php</literal> باید یک نویسهٔ فاصله (space، tab یا newline) قرار بگیرد تا جداسازی توکن‌ها به‌درستی انجام شود. حذف این فاصله منجر به بروز خطای سینتکس (syntax error) خواهد شد.
+   </para>
+
+   <para>
+     PHP همچنین شامل تگ کوتاه echo یعنی <literal>&lt;?=</literal> است که شکل خلاصه‌شده‌ی <code>&lt;?php echo</code> می‌باشد.
+   </para>
+   <para>
+    <example>
+     <title>تگ‌های باز و بسته شدن PHP</title>
+     <programlisting role="php">
+<![CDATA[
+1.  <?php echo 'if you want to serve PHP code in XHTML or XML documents,
+                use these tags'; ?>
+
+2.  You can use the short echo tag to <?= 'print this string' ?>.
+    It's equivalent to <?php echo 'print this string' ?>.
+
+3.  <? echo 'this code is within short tags, but will only work '.
+            'if short_open_tag is enabled'; ?>
+]]>
+     </programlisting>
+    </example>
+   </para>
+
+   <para>
+     تگ‌های کوتاه (مثال ۳) به‌طور پیش‌فرض در دسترس هستند، اما می‌توان آن‌ها را یا از طریق دستور تنظیمی <link linkend="ini.short-open-tag">short_open_tag</link> در فایل &php.ini; غیرفعال کرد، یا اگر PHP با گزینه پیکربندی <option>--disable-short-tags</option> کامپایل شده باشد، به‌طور پیش‌فرض غیرفعال خواهند بود.
+   </para>
+   <para>
+    <note>
+     <para>
+      از آنجا که تگ‌های کوتاه ممکن است غیرفعال شوند، توصیه می‌شود فقط از تگ‌های استاندارد (<code>&lt;?php ?&gt;</code> و <code>&lt;?= ?&gt;</code>) استفاده کنید تا بیشترین سازگاری را داشته باشید.
+     </para>
+    </note>
+   </para>
+
+   <para>
+    اگر یک فایل با کد PHP به پایان می‌رسد، بهتر است تگ پایانی PHP در انتهای فایل حذف شود. این کار از اضافه شدن ناخواسته فاصله‌ها یا خطوط جدید بعد از تگ پایانی PHP جلوگیری می‌کند، که ممکن است باعث اثرات ناخواسته شود، زیرا PHP در صورتی که برنامه‌نویس قصد ارسال هیچ خروجی‌ای نداشته باشد، شروع به بافر کردن خروجی (output buffering) می‌کند.
+   </para>
+   <para>
+    <example>
+     <title>فایل فقط شامل کد PHP</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+echo "Hello world\n";
+
+// ... more code
+
+echo "Last statement\n";
+
+// the script ends here with no PHP closing tag
+]]>
+     </programlisting>
+    </example>
+   </para>
+  </sect1>
+
+  <sect1 xml:id="language.basic-syntax.phpmode">
+   <title>خارج شدن از HTML</title>
+   <para>
+    هر چیزی خارج از یک جفت تگ باز و بسته توسط مفسر PHP نادیده گرفته می‌شود، که این امکان را می‌دهد فایل‌های PHP محتوای ترکیبی داشته باشند. این ویژگی اجازه می‌دهد PHP در اسناد HTML جاسازی شود، برای مثال جهت ایجاد قالب‌ها (templates).
+   </para>
+   <para>
+    <example>
+     <title>جاسازی PHP در HTML</title>
+     <programlisting role="php">
+<![CDATA[
+<p>This is going to be ignored by PHP and displayed by the browser.</p>
+<?php echo 'While this is going to be parsed.'; ?>
+<p>This will also be ignored by PHP and displayed by the browser.</p>
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <para>
+    این همان‌طور که انتظار می‌رود کار می‌کند، زیرا زمانی که مفسر PHP به تگ پایانی ?&gt; می‌رسد، به‌سادگی شروع به خروجی دادن هر چیزی می‌کند که پیدا می‌کند (به‌جز خط جدیدی که بلافاصله پس از آن قرار دارد — به بخش <link linkend="language.basic-syntax.instruction-separation">جداسازی دستورات</link> مراجعه کنید) تا زمانی که دوباره به یک تگ باز دیگر برسد؛ مگر اینکه در میانه یک دستور شرطی باشد، که در این صورت مفسر قبل از تصمیم‌گیری درباره اینکه چه بخشی را نادیده بگیرد، نتیجه شرط را تعیین می‌کند. به مثال بعدی مراجعه کنید.
+   </para>
+   <para>
+    استفاده از ساختارها با شرط‌ها
+    <example>
+     <title>خارج شدن پیشرفته از حالت PHP با استفاده از شرط‌ها</title>
+     <programlisting role="php">
+<![CDATA[
+<?php if ($expression == true): ?>
+  This will show if the expression is true.
+<?php else: ?>
+  Otherwise this will show.
+<?php endif; ?>
+]]>
+     </programlisting>
+    </example>
+    در این مثال، PHP بلوک‌هایی را که شرط آن‌ها برقرار نیست نادیده می‌گیرد، حتی اگر آن‌ها خارج از تگ‌های باز و بسته PHP باشند؛ PHP این بلوک‌ها را بر اساس شرط رد می‌کند، زیرا مفسر PHP از روی بلوک‌هایی که در یک شرط برقرار نشده قرار دارند عبور می‌کند.
+   </para>
+   <para>
+     برای خروجی گرفتن از بلوک‌های بزرگ متن، خارج شدن از حالت پردازش PHP معمولاً کارآمدتر از ارسال تمام متن از طریق <function>echo</function> یا <function>print</function> است.
+   </para>
+   <para>
+    <note>
+     <para>
+      اگر PHP درون XML یا XHTML قرار گرفته باشد، باید از تگ‌های استاندارد <code>&lt;?php ?&gt;</code> استفاده شود تا با استانداردها سازگار بماند.
+     </para>
+    </note>
+   </para>
+  </sect1>
+
+  <sect1 xml:id="language.basic-syntax.instruction-separation">
+   <title>جداسازی دستورات</title>
+   <para>
+    مانند C یا Perl، PHP نیاز دارد که دستورات در پایان هر عبارت با یک سمی‌کالن (;) خاتمه یابند. تگ پایانی یک بلوک کد PHP به‌طور خودکار به معنی وجود یک سمی‌کالن است؛ بنابراین لازم نیست خط آخر یک بلوک PHP را با سمی‌کالن پایان دهید. تگ پایانی این بلوک، در صورت وجود، خط جدید بلافاصله بعد از آن را نیز شامل می‌شود.
+   </para>
+
+   <para>
+    <example>
+     <title>مثالی که نشان می‌دهد تگ پایانی شامل خط جدید انتهایی نیز می‌شود
+</title>
+     <programlisting role="php">
+<![CDATA[
+<?php echo "Some text"; ?>
+No newline
+<?= "But newline now" ?>
+]]>
+     </programlisting>
+     &example.outputs;
+     <screen>
+<![CDATA[
+Some textNo newline
+But newline now
+]]>
+     </screen>
+    </example>
+   </para>
+
+   <para>
+    <example>
+     <title>مثال‌هایی از ورود به مفسر PHP و خروج از آن</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+    echo "This is a test\n";
+?>
+
+<?php echo "This is a test\n" ?>
+
+<?php echo "We omitted the last closing tag\n";
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <para>
+    <note>
+     <para>
+      تگ پایانی یک بلوک PHP در انتهای فایل اختیاری است، و در برخی موارد حذف آن هنگام استفاده از <function>include</function> یا <function>require</function> مفید است، زیرا از ایجاد فاصله‌های ناخواسته در انتهای فایل جلوگیری می‌کند و همچنان می‌توانید بعداً هدرها را به response اضافه کنید. این کار همچنین زمانی که از output
+      buffering استفاده می‌کنید مفید است، زیرا نمی‌خواهید در انتهای بخش‌های تولیدشده توسط فایل‌های include شده فاصله‌های ناخواسته اضافه شود.
+     </para>
+    </note>
+   </para>
+  </sect1>
+  <sect1 xml:id="language.basic-syntax.comments">
+   <title>کامنت ها</title>
+   <para>
+    PHP از کامنت‌های سبک «C»، «C++» و سبک شل یونیکس (مشابه Perl) پشتیبانی می‌کند. برای مثال:
+   </para>
+   <para>
+    <example>
+     <title>کامنت ها</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+    echo "This is a test\n"; // This is a one-line c++ style comment
+    /* This is a multi line comment
+       yet another line of comment */
+    echo "This is yet another test\n";
+    echo "One Final Test\n"; # This is a one-line shell-style comment
+?>
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <simpara>
+    سبک‌های کامنت «تک‌خطی» فقط تا انتهای خط یا تا پایان بلوک فعلی PHP (هرکدام زودتر اتفاق بیفتد) را به‌عنوان کامنت در نظر می‌گیرند. این یعنی کد HTML که بعد از <literal>// ... ?&gt;</literal> یا <literal># ...  ?&gt;</literal> قرار بگیرد، چاپ خواهد شد: ?&gt; از حالت PHP خارج شده و به حالت HTML برمی‌گردد، و <literal>//</literal> یا <literal>#</literal> نمی‌توانند روی این موضوع تأثیر بگذارند.
+   </simpara>
+   <para>
+    <example>
+     <title>کامنت های تک خطی</title>
+     <programlisting role="php">
+<![CDATA[
+<h1>This is an <?php # echo 'simple';?> example</h1>
+<p>The header above will say 'This is an  example'.</p>
+]]>
+     </programlisting>
+    </example>
+   </para>
+   <simpara>
+    کامنت‌های سبک «C» در اولین <literal>*/</literal> که با آن مواجه شوند به پایان می‌رسند. مطمئن شوید که کامنت‌های سبک C را تو‌در‌تو (nested) قرار نمی‌دهید. این اشتباه به‌راحتی ممکن است رخ دهد اگر بخواهید یک بلوک بزرگ از کد را کامنت کنید.
+   </simpara>
+   <para>
+    <informalexample>
+     <programlisting role="php">
+<![CDATA[
+<?php
+ /*
+    echo 'This is a test'; /* This comment will cause a problem */
+ */
+?>
+]]>
+     </programlisting>
+    </informalexample>
+   </para>
+  </sect1>
+ </chapter>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
