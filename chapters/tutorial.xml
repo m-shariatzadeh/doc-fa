@@ -180,7 +180,7 @@ Mozilla/5.0 (Linux) Firefox/112.0
 <?php
 
 if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
-    echo 'You are using Firefox.';
+    echo 'شما دارید از Firefox استفاده می کنید.';
 }
 
 ?>
@@ -191,7 +191,7 @@ if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
      </para>
      <screen role="html">
 <![CDATA[
-You are using Firefox.
+شما دارید از Firefox استفاده می کنید.
 ]]>
      </screen>
     </example>
@@ -214,13 +214,13 @@ You are using Firefox.
 <?php
 if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
     ?>
-    <h3>str_contains() returned true</h3>
-    <p>You are using Firefox</p>
+    <h3>str_contains() مقدار true برمی گردونه</h3>
+    <p>شما دارید از Firefox استفاده می کنید</p>
     <?php
 } else {
     ?>
-    <h3>str_contains() returned false</h3>
-    <p>You are not using Firefox</p>
+    <h3>str_contains() مقدار false برمی گردونه</h3>
+    <p>شما دارید از Firefox استفاده می کنید</p>
     <?php
 }
 ?>
@@ -231,8 +231,8 @@ if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
      </para>
      <screen role="html">
 <![CDATA[
-<h3>str_contains() returned true</h3>
-<p>You are using Firefox</p>
+<h3>str_contains() مقدار true برمی گردونه</h3>
+<p>شما دارید از Firefox استفاده می کنید</p>
 ]]>
      </screen>
     </example>
@@ -253,13 +253,13 @@ if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
      <programlisting role="html">
 <![CDATA[
 <form action="action.php" method="post">
-    <label for="name">Your name:</label>
+    <label for="name">نام:</label>
     <input name="name" id="name" type="text">
 
-    <label for="age">Your age:</label>
+    <label for="age">سن:</label>
     <input name="age" id="age" type="number">
 
-    <button type="submit">Submit</button>
+    <button type="submit">ثبت</button>
 </form>
 ]]>
      </programlisting>
@@ -273,8 +273,8 @@ if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox')) {
      <info><title>چاپ داده‌های فرم ما</title></info>
      <programlisting role="php">
 <![CDATA[
-Hi <?php echo htmlspecialchars($_POST['name']); ?>.
-You are <?php echo (int) $_POST['age']; ?> years old.
+سلام <?php echo htmlspecialchars($_POST['name']); ?>.
+شما <?php echo (int) $_POST['age']; ?> ساله هستید.
 ]]>
      </programlisting>
      <para>
@@ -282,7 +282,7 @@ You are <?php echo (int) $_POST['age']; ?> years old.
      </para>
      <screen role="html">
 <![CDATA[
-Hi Joe. You are 22 years old.
+سلام جو. شما 22 سال دارید.
 ]]>
      </screen>
     </example>

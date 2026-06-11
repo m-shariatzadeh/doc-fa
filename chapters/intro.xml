@@ -23,12 +23,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Example</title>
+        <title>مثال</title>
     </head>
     <body>
 
         <?php
-            echo "Hi, I'm a PHP script!";
+            echo "سلام، من یک اسکریپت PHP هستم";
         ?>
 
     </body>

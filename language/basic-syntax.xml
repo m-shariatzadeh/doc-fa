@@ -20,14 +20,13 @@
      <title>تگ‌های باز و بسته شدن PHP</title>
      <programlisting role="php">
 <![CDATA[
-1.  <?php echo 'if you want to serve PHP code in XHTML or XML documents,
-                use these tags'; ?>
+1.  <?php echo 'اگر می خواهید کد PHP را در اسناد XHTML یا XML قرار دهید از این تگ ها استفاده کنید'; ?>
 
-2.  You can use the short echo tag to <?= 'print this string' ?>.
-    It's equivalent to <?php echo 'print this string' ?>.
+2.  شما می توانید از تگ کوتاه شده echo استفاده کنید برای <?= 'چاپ این رشته' ?>.
+    که برابر است با <?php echo 'چاپ این رشته' ?>.
 
-3.  <? echo 'this code is within short tags, but will only work '.
-            'if short_open_tag is enabled'; ?>
+3.  <? echo 'این کد داخل تگ های کوتاه شده کار خواهد کرد '.
+            'اگر short_open_tag فعال باشد'; ?>
 ]]>
      </programlisting>
     </example>
@@ -55,11 +54,11 @@
 <?php
 echo "Hello world\n";
 
-// ... more code
+// ... کد های بیشتر
 
 echo "Last statement\n";
 
-// the script ends here with no PHP closing tag
+// این اسکریپت بدون تگ بستن PHP اینجا تمام می شود
 ]]>
      </programlisting>
     </example>
@@ -76,9 +75,9 @@ echo "Last statement\n";
      <title>جاسازی PHP در HTML</title>
      <programlisting role="php">
 <![CDATA[
-<p>This is going to be ignored by PHP and displayed by the browser.</p>
-<?php echo 'While this is going to be parsed.'; ?>
-<p>This will also be ignored by PHP and displayed by the browser.</p>
+<p>این قسمت توسط PHP نادیده گرفته می شود و توسط مرورگر نمایش داده می شود.</p>
+<?php echo 'درحالی که این قسمت توسط PHP تفسیر می شود.'; ?>
+<p>این قسمت هم مجدد نادیده گرفته می شود و توسط مرورگر نمایش داده می شود.</p>
 ]]>
      </programlisting>
     </example>
@@ -93,9 +92,9 @@ echo "Last statement\n";
      <programlisting role="php">
 <![CDATA[
 <?php if ($expression == true): ?>
-  This will show if the expression is true.
+  این عبارت در صورتی نمایش داده می‌شود که شرط (expression) برقرار باشد و مقدار آن `true` باشد.
 <?php else: ?>
-  Otherwise this will show.
+  در غیر اینصورت این قسمت نمایش داده خواهد شد.
 <?php endif; ?>
 ]]>
      </programlisting>
@@ -126,16 +125,16 @@ echo "Last statement\n";
 </title>
      <programlisting role="php">
 <![CDATA[
-<?php echo "Some text"; ?>
-No newline
-<?= "But newline now" ?>
+<?php echo "متن متفرقه"; ?>
+بدون خط جدید
+<?= "اما حالا وارد خط جدید شدیم" ?>
 ]]>
      </programlisting>
      &example.outputs;
      <screen>
 <![CDATA[
-Some textNo newline
-But newline now
+متن متفرقهبدون خط جدید
+اما حالا وارد خط جدید شدیم
 ]]>
      </screen>
     </example>
@@ -147,12 +146,12 @@ But newline now
      <programlisting role="php">
 <![CDATA[
 <?php
-    echo "This is a test\n";
+    echo "این یک تست است\n";
 ?>
 
-<?php echo "This is a test\n" ?>
+<?php echo "این یک تست است\n" ?>
 
-<?php echo "We omitted the last closing tag\n";
+<?php echo "ما تگ پایانی آخر را حذف کردیم.\n";
 ]]>
      </programlisting>
     </example>
@@ -177,11 +176,11 @@ But newline now
      <programlisting role="php">
 <![CDATA[
 <?php
-    echo "This is a test\n"; // This is a one-line c++ style comment
-    /* This is a multi line comment
-       yet another line of comment */
-    echo "This is yet another test\n";
-    echo "One Final Test\n"; # This is a one-line shell-style comment
+    echo "این یک تست است\n"; // این یک کامنت تک خطی به سبک c++ است
+    /* این یک کامنت چند خطی است
+       و خط دیگر از این کامنت  */
+    echo "این یک تست دیگر است\n";
+    echo "یک تست نهایی\n"; # این یک کامنت تک خطی به سبک shell است
 ?>
 ]]>
      </programlisting>
@@ -195,8 +194,8 @@ But newline now
      <title>کامنت های تک خطی</title>
      <programlisting role="php">
 <![CDATA[
-<h1>This is an <?php # echo 'simple';?> example</h1>
-<p>The header above will say 'This is an  example'.</p>
+<h1>این یک  مثال <?php # echo 'ساده';?> است</h1>
+<p>مثال بالا میگه 'این یک مثال ساده است'.</p>
 ]]>
      </programlisting>
     </example>
@@ -210,7 +209,7 @@ But newline now
 <![CDATA[
 <?php
  /*
-    echo 'This is a test'; /* This comment will cause a problem */
+    echo 'این یک تست است'; /* این کامنت یک مشکلی دارد */
  */
 ?>
 ]]>
