@@ -1,0 +1,1167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: ddc2a2d0966f746b67292b6c0987ef288747e409 Maintainer: Mostafa Status: ready -->
+<sect1 xml:id="language.types.string">
+ <title>رشته ها (Strings)</title>
+
+ <para>
+  رشته (<type>string</type>) دنباله‌ای از کاراکترها است، که در آن هر کاراکتر معادل یک بایت در نظر گرفته می‌شود. این بدان معناست که PHP فقط از یک مجموعه کاراکتری ۲۵۶ تایی پشتیبانی می‌کند و در نتیجه به‌صورت بومی (native) از Unicode پشتیبانی نمی‌کند. برای جزئیات بیشتر، به بخش مربوط به <link linkend="language.types.string.details">جزئیات نوع string</link> مراجعه کنید.
+ </para>
+
+ <note>
+  <simpara>
+در نسخه‌های 32 بیتی PHP، یک رشته (<type>string</type>) می‌تواند حداکثر تا 2 گیگابایت اندازه داشته باشد (حداکثر 2147483647 بایت).
+  </simpara>
+ </note>
+
+ <sect2 xml:id="language.types.string.syntax">
+  <title>Syntax</title>
+
+  <para>
+    یک متنی (<type>string</type> literal) را می‌توان به چهار روش مختلف تعریف کرد:
+  </para>
+
+  <itemizedlist>
+   <listitem>
+    <simpara>
+     <link linkend="language.types.string.syntax.single">single quoted</link>
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     <link linkend="language.types.string.syntax.double">double quoted</link>
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     <link linkend="language.types.string.syntax.heredoc">heredoc syntax</link>
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     <link linkend="language.types.string.syntax.nowdoc">nowdoc syntax</link>
+    </simpara>
+   </listitem>
+  </itemizedlist>
+
+  <sect3 xml:id="language.types.string.syntax.single">
+   <title>Single quoted</title>
+
+   <para>
+    ساده‌ترین روش برای مشخص کردن یک رشته (<type>string</type>) این است که آن را داخل تک‌کوتیشن (<literal>'</literal>) قرار دهید.
+   </para>
+
+   <para>
+    برای نوشتن یک تک کوتیشن (') در رشته ای که خودش داخل تک کوتیشن قرار دارد، باید با یک بک اسلش (<literal>\</literal>) نوشته شود. برای خود بک اسلش باید دوبار آن را بنویسید (<literal>\\</literal>). همه‌ی موارد دیگر بک‌اسلش به‌عنوان یک بک‌اسلش ساده در نظر گرفته می‌شوند؛ یعنی escape sequenceهای دیگر مثل <literal>\r</literal> یا <literal>\n</literal> در رشته‌های تک‌کوتیشن (single quoted strings) معنی خاصی ندارند و دقیقاً همان‌طور که نوشته شده‌اند خروجی داده می‌شوند.
+   </para>
+
+   <note>
+    <simpara>
+     برخلاف سینتکس‌های دابل کوتیشن (<link linkend="language.types.string.syntax.double">double-quoted</link>) و <link linkend="language.types.string.syntax.heredoc">heredoc</link>، <link linkend="language.variables">متغیرها</link> و (escape sequences) مربوط به کاراکترهای خاص در <type>رشته‌</type>های تک‌کوتیشن (single quoted) تبدیل (expand) <emphasis>نمی‌شوند</emphasis>.
+    </simpara>
+   </note>
+
+   <example>
+    <title>Syntax انواع</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+echo 'این یک رشته ساده است', PHP_EOL;
+
+echo 'شما همچنین می‌توانید خط‌های جدید (newlines) را به همین شکل
+ داخل رشته‌ها قرار دهید،
+ زیرا این کار مجاز است و مشکلی ندارد.', PHP_EOL;
+
+// خروجی ها: یکبار آرنولد گفت: "I'll be back"
+echo 'یکبار آرنولد گفت: "I\'ll be back"', PHP_EOL;
+
+// خروجی ها: تو حذف کردی C:\*.*?
+echo 'تو حذف کردی C:\\*.*?', PHP_EOL;
+
+// خروجی ها: تو حذف کردی C:\*.*?
+echo 'تو حذف کردی C:\*.*?', PHP_EOL;
+
+// خروجی ها: این تبدیل نخواهد شد: \n یک خط جدید
+echo 'این تبدیل نخواهد شد: \n یک خط جدید', PHP_EOL;
+
+// خروجی ها: متغیر ها نیز تبدیل نمی شوند $expand $either
+echo 'متغیر ها نیز تبدیل نمی شوند $expand $either', PHP_EOL;
+?>
+]]>
+    </programlisting>
+   </example>
+
+  </sect3>
+
+  <sect3 xml:id="language.types.string.syntax.double">
+   <title>Double quoted</title>
+
+   <para>
+    اگر <type>رشته</type> داخل دابل‌کوتیشن (<literal>"</literal>) قرار گرفته باشد، PHP توالی‌های escape (escape sequences) زیر را برای کاراکترهای خاص تفسیر می‌کند:
+   </para>
+
+   <table>
+    <title>Escaped characters</title>
+
+    <tgroup cols="2">
+     <thead>
+      <row>
+       <entry>Sequence</entry>
+       <entry>معنی</entry>
+      </row>
+     </thead>
+
+     <tbody>
+      <row>
+       <entry><literal>\n</literal></entry>
+       <entry>خط جدید (LF or 0x0A (10) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\r</literal></entry>
+       <entry>یازگشت سرخط (CR or 0x0D (13) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\t</literal></entry>
+       <entry>تب افقی (HT or 0x09 (9) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\v</literal></entry>
+       <entry>تب عمودی (VT or 0x0B (11) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\e</literal></entry>
+       <entry>escape (ESC or 0x1B (27) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\f</literal></entry>
+       <entry>form feed (FF or 0x0C (12) in ASCII)</entry>
+      </row>
+      <row>
+       <entry><literal>\\</literal></entry>
+       <entry>بک اسلش</entry>
+      </row>
+      <row>
+       <entry><literal>\$</literal></entry>
+       <entry>علامت دلار</entry>
+      </row>
+      <row>
+       <entry><literal>\"</literal></entry>
+       <entry>دابل کوتیشن</entry>
+      </row>
+      <row>
+       <entry><literal>\[0-7]{1,3}</literal></entry>
+       <entry>
+        Octal: دنباله‌ای از کاراکترها که با regular expression <literal>[0-7]{1,3}</literal> مطابقت دارد، به‌عنوان یک کاراکتر در نمایش octal تفسیر می‌شود (مثلاً <literal>"\101" === "A"</literal>)، که در صورت نیاز به‌طور بی‌صدا برای جا شدن در یک بایت دچار سرریز (overflow) می‌شود (مثلاً <literal>"\400" === "\000"</literal>).
+       </entry>
+      </row>
+      <row>
+       <entry><literal>\x[0-9A-Fa-f]{1,2}</literal></entry>
+       <entry>
+        Hexadecimal: دنباله‌ای از کاراکترها که با regular expression <literal>[0-9A-Fa-f]{1,2}</literal> مطابقت دارد، به‌عنوان یک کاراکتر در نمایش هگزادسیمال تفسیر می‌شود (مثلاً <literal>"\x41" === "A"</literal>).
+       </entry>
+      </row>
+      <row>
+       <entry><literal>\u{[0-9A-Fa-f]+}</literal></entry>
+       <entry>
+        یونیکد (Unicode): دنباله‌ای از کاراکترها که با regular expression <literal>[0-9A-Fa-f]+</literal> مطابقت دارد، به‌عنوان یک کدپوینت یونیکد در نظر گرفته می‌شود که در رشته به‌صورت نمایش UTF-8 همان کدپوینت خروجی داده می‌شود. استفاده از آکولادها در این ساختار الزامی است. برای مثال: <literal>"\u{41}" === "A"</literal>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+
+   <para>
+    همانند <type>رشته‌</type>های تک‌کوتیشن، escape کردن هر کاراکتر دیگری باعث می‌شود خود بک‌اسلش نیز چاپ شود.
+   </para>
+
+   <para>
+    مهم‌ترین ویژگی <type>رشته‌</type>های دابل‌کوتیشن (double-quoted) این است که نام متغیرها در آن‌ها تبدیل یا تفسیر (expand) می‌شوند. برای جزئیات بیشتر به بخش <link linkend="language.types.string.parsing">جا گذاری در رشته (string interpolation)</link> مراجعه کنید.
+   </para>
+  </sect3>
+
+  <sect3 xml:id="language.types.string.syntax.heredoc">
+   <title>Heredoc</title>
+
+   <simpara>
+    راه سوم برای تعریف <type>رشته‌</type>ها، استفاده از سینتکس heredoc با <literal>&lt;&lt;&lt;</literal> است. بعد از این عملگر، یک شناسه (identifier) قرار می‌گیرد و سپس یک خط جدید می‌آید. خود <type>رشته‌</type> در ادامه نوشته می‌شود و در پایان، همان شناسه دوباره تکرار می‌شود تا کوتیشن بسته شود.
+   </simpara>
+
+   <simpara>
+    شناسه پایانی (closing identifier) می‌تواند با فاصله (space) یا تب (tab) تورفتگی داشته باشد؛ در این صورت، این تورفتگی از تمام خطوط داخل رشته heredoc حذف (strip) می‌شود. پیش از PHP 7.3.0، شناسه پایانی <emphasis>باید</emphasis> حتماً از ستون اول خط شروع می‌شد.
+   </simpara>
+
+   <simpara>
+    همچنین شناسه پایانی (closing identifier) باید از همان قوانین نام‌گذاری سایر برچسب‌ها در PHP پیروی کند: فقط می‌تواند شامل حروف، اعداد و زیرخط (_) باشد و باید با یک حرف یا زیرخط شروع شود (نه با عدد).
+   </simpara>
+
+   <example>
+    <title>مثال Heredoc از PHP 7.3.0</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+// بدون تورفتگی
+echo <<<END
+      a
+     b
+    c
+\n
+END;
+
+// تو رفتگی به اندازه 4 فاصله (space)
+echo <<<END
+      a
+     b
+    c
+    END;
+]]>
+    </programlisting>
+    &example.outputs.73;
+    <screen>
+<![CDATA[
+      a
+     b
+    c
+
+  a
+ b
+c
+]]>
+    </screen>
+   </example>
+
+   <simpara>
+    اگر شناسه پایانی (closing identifier) بیشتر از تمام خطوط بدنه تورفتگی داشته باشد، یک خطای تجزیه (<classname>ParseError</classname>) ایجاد خواهد شد.
+   </simpara>
+
+   <example>
+    <title>شناسه پایانی (closing identifier) نباید بیشتر از هیچ‌یک از خطوط بدنه تورفتگی داشته باشد.</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+echo <<<END
+  a
+ b
+c
+   END;
+]]>
+    </programlisting>
+    &example.outputs.73;
+    <screen>
+<![CDATA[
+Parse error: Invalid body indentation level (expecting an indentation level of at least 3) in example.php on line 4
+]]>
+    </screen>
+   </example>
+
+   <simpara>
+    اگر شناسه پایانی (closing identifier) تورفتگی داشته باشد، می‌توان از تب نیز استفاده کرد؛ با این حال، <emphasis>نباید</emphasis> در مورد تورفتگی شناسه پایانی و تورفتگی بدنه (تا قبل از شناسه پایانی) ترکیبی از تب و فاصله (space) استفاده شود. در هر یک از این موارد، یک خطای تجزیه (<classname>ParseError</classname>) ایجاد خواهد شد. این محدودیت‌های مربوط به فاصله‌های خالی (whitespace) به این دلیل اعمال شده‌اند که ترکیب تب و فاصله برای تورفتگی، خوانایی کد را کاهش می‌دهد.
+   </simpara>
+
+   <example>
+    <title>تورفتگی متفاوت برای بدنه (با فاصله‌ها) و شناسه پایانی (closing identifier)</title>
+    <programlisting role="php" annotations="non-interactive">
+<![CDATA[
+<?php
+// تمام کدهای زیر کار نمی‌کنند.
+
+// تورفتگی متفاوت برای بدنه (با فاصله‌ها) و نشانگر پایانی (با تب‌ها)
+
+{
+	echo <<<END
+	 a
+		END;
+}
+
+// ترکیب فاصله ها و تب ها در بدنه
+{
+    echo <<<END
+    	a
+     END;
+}
+
+// ترکیب فاصله ها و تب ها در نشانگر پایانی
+{
+	echo <<<END
+		  a
+		 END;
+}
+]]>
+    </programlisting>
+    &example.outputs.73;
+    <screen>
+<![CDATA[
+Parse error: Invalid indentation - tabs and spaces cannot be mixed in example.php line 8
+]]>
+    </screen>
+   </example>
+
+   <simpara>
+    شناسه پایانی (closing identifier) برای رشته‌ی بدنه (body string) نیازی ندارد که با سمی‌کالن  یا خط جدید (newline) دنبال شود. برای مثال، کد زیر از PHP 7.3.0 به بعد مجاز است:
+   </simpara>
+
+   <example>
+    <title>ادامه دادن یک عبارت (expression) پس از شناسه پایانی (closing identifier)</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+$values = [<<<END
+a
+  b
+    c
+END, 'd e f'];
+var_dump($values);
+]]>
+    </programlisting>
+    &example.outputs.73;
+    <screen>
+<![CDATA[
+array(2) {
+  [0] =>
+  string(11) "a
+  b
+    c"
+  [1] =>
+  string(5) "d e f"
+}
+]]>
+    </screen>
+   </example>
+
+   <warning>
+    <simpara>
+     اگر شناسه پایانی (closing identifier) در ابتدای یک خط پیدا شود، ممکن است حتی اگر بخشی از یک کلمه دیگر باشد به‌عنوان شناسه پایانی در نظر گرفته شود و باعث ایجاد یک خطای تجزیه (<classname>ParseError</classname>) شود.
+    </simpara>
+
+    <example>
+     <title>وجود شناسه پایانی (closing identifier) در داخل بدنه‌ی رشته معمولاً باعث ایجاد خطای تجزیه (ParseError) می‌شود.</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+$values = [<<<END
+a
+b
+END ING
+END, 'd e f'];
+]]>
+     </programlisting>
+     &example.outputs.73;
+    <screen>
+<![CDATA[
+Parse error: syntax error, unexpected identifier "ING", expecting "]" in example.php on line 5
+]]>
+     </screen>
+    </example>
+
+    <simpara>
+     برای جلوگیری از این مشکل، بهتر است یک قانون ساده را رعایت کنید: <emphasis>کلمه‌ای را به‌عنوان شناسه پایانی انتخاب نکنید که در متن (body) رشته نیز وجود </emphasis>دارد.
+    </simpara>
+
+   </warning>
+
+   <warning>
+    <simpara>
+    پیش از PHP 7.3.0، بسیار مهم است توجه داشته باشید که خط مربوط به شناسه پایانی (closing identifier) نباید هیچ کاراکتر دیگری داشته باشد، به‌جز یک سمی‌کالن (<literal>;</literal>). یعنی به‌خصوص شناسه <emphasis>نباید تورفتگی داشته باشد</emphasis> و همچنین نباید قبل یا بعد از سمی‌کالن هیچ فاصله یا تب (space یا tab) وجود داشته باشد. همچنین باید در نظر داشت که اولین کاراکتر قبل از شناسه پایانی باید یک خط جدید (newline) مطابق سیستم‌عامل محلی باشد. این مقدار در سیستم‌های UNIX، از جمله macOS، برابر <literal>\n</literal> است. علاوه بر این، جداکننده پایانی نیز باید با یک خط جدید دنبال شود.
+    </simpara>
+
+    <simpara>
+     اگر این قانون رعایت نشود و شناسه پایانی (closing identifier) «تمیز» نباشد، به‌عنوان شناسه پایانی در نظر گرفته نمی‌شود و PHP همچنان به جستجوی آن ادامه می‌دهد. اگر قبل از پایان فایل فعلی، شناسه پایانی صحیح پیدا نشود، در خط آخر یک خطای تجزیه (parse error) رخ خواهد داد.
+    </simpara>
+
+    <example>
+     <title>مثال نامعتبر، قبل از PHP 7.3.0</title>
+     <programlisting role="php">
+      <!-- This is an INVALID example -->
+<![CDATA[
+<?php
+class foo {
+    public $bar = <<<EOT
+bar
+    EOT;
+}
+// شناسه نباید تورفتگی داشته باشد
+?>
+]]>
+     </programlisting>
+    </example>
+    <example>
+     <title>مثال معتبر، قبل از PHP 7.3.0</title>
+     <programlisting role="php">
+      <!-- This is a VALID example -->
+<![CDATA[
+<?php
+class foo {
+    public $bar = <<<EOT
+bar
+EOT;
+}
+?>
+]]>
+     </programlisting>
+    </example>
+
+    <para>
+    heredocهایی که شامل متغیرها هستند نمی‌توانند برای مقداردهی اولیه به ویژگی‌های (properties) کلاس استفاده شوند.
+    </para>
+
+   </warning>
+
+   <para>
+    متن heredoc دقیقاً مانند یک <type>رشته‌</type>ی دابل‌کوتیشن رفتار می‌کند، با این تفاوت که نیازی به قرار دادن کوتیشن‌های دابل ندارد. این یعنی کوتیشن‌ها داخل heredoc نیازی به escape شدن ندارند، اما escape sequenceهای ذکرشده همچنان قابل استفاده هستند. متغیرها نیز در آن تبدیل (expand) می‌شوند، اما هنگام استفاده از متغیرهای پیچیده در heredoc باید همان دقتی را به خرج داد که در <type>رشته‌</type>های دابل‌کوتیشن لازم است.
+   </para>
+
+   <example>
+    <title>مثال کوتیشن Heredoc</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+$str = <<<EOD
+مثالی از یک رشته
+که با استفاده از سینتکس heredoc 
+در چند خط گسترده شده است.
+EOD;
+
+/* مثال پیچیده تر، با متغیرها. */
+class foo
+{
+    var $foo;
+    var $bar;
+
+    function __construct()
+    {
+        $this->foo = 'Foo';
+        $this->bar = array('Bar1', 'Bar2', 'Bar3');
+    }
+}
+
+$foo = new foo();
+$name = 'MyName';
+
+echo <<<EOT
+اسم من "$name" هست. دارم چاپ میکنم $foo->foo.
+حالا، چاپ میکنم {$foo->bar[1]}.
+باید یک حرف بزرگ چاپ کند 'A': \x41
+EOT;
+?>
+]]>
+    </programlisting>
+    &example.outputs;
+    <screen>
+<![CDATA[
+اسم من "MyName" هست. دارم چاپ میکنم Foo.
+حالا، چاپ میکنم Bar2.
+باید یک حرف بزرگ چاپ کند 'A': A]]>
+    </screen>
+   </example>
+
+   <para>
+    همچنین می‌توان از سینتکس heredoc برای ارسال داده به آرگومان‌های توابع استفاده کرد:
+   </para>
+
+   <example>
+    <title>مثال آرگومان ها در Heredoc</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+var_dump(array(<<<EOD
+foobar!
+EOD
+));
+?>
+]]>
+    </programlisting>
+   </example>
+
+   <para>
+    امکان مقداردهی اولیه به متغیرهای ایستا (static variables) و ویژگی‌ها (properties) یا ثابت‌های (constants) کلاس با استفاده از سینتکس heredoc وجود دارد:
+   </para>
+
+   <example>
+    <title>استفاده از heredoc برای مقداردهی اولیه به مقادیر ایستا (static values)</title>
+    <programlisting role="php" annotations="non-interactive">
+<![CDATA[
+<?php
+// متغیر های ایستا
+function foo()
+{
+    static $bar = <<<LABEL
+هیچی اینجا نیست...
+LABEL;
+}
+
+// Class properties/constants
+class foo
+{
+    const BAR = <<<FOOBAR
+مثال از ثابت
+FOOBAR;
+
+    public $baz = <<<FOOBAR
+Property مثال از
+FOOBAR;
+}
+?>
+]]>
+    </programlisting>
+   </example>
+
+   <para>
+    شناسه‌ی آغازین (opening identifier) در heredoc می‌تواند به‌صورت اختیاری داخل دابل‌کوتیشن قرار داده شود.
+   </para>
+
+   <example>
+    <title>استفاده از دابل کوتیشن در Heredoc</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+echo <<<"FOOBAR"
+Hello World!
+FOOBAR;
+?>
+]]>
+    </programlisting>
+   </example>
+
+  </sect3>
+
+  <sect3 xml:id="language.types.string.syntax.nowdoc">
+   <title>Nowdoc</title>
+
+   <para>
+    Nowdoc نسبت به رشته‌های تک‌کوتیشن (single-quoted) همان نقشی را دارد که Heredoc نسبت به رشته‌های دابل‌کوتیشن (double-quoted) دارد. یک nowdoc تقریباً مانند heredoc تعریف می‌شود، با این تفاوت که درون آن <emphasis>جاگذاری در رشته (String Interpolation) .انجام نمی‌شود</emphasis> این ساختار برای قرار دادن کد PHP یا بلوک‌های بزرگ متن بدون نیاز به escape کردن بسیار مناسب است. همچنین از این جهت به ساختار <literal>&lt;![CDATA[ ]]&gt;</literal> در SGML شباهت دارد که یک بلوک متنی را مشخص می‌کند که نباید مورد پردازش (parsing) قرار گیرد.
+   </para>
+
+   <para>
+    یک nowdoc با همان توالی <literal>&lt;&lt;&lt;</literal> که در heredoc استفاده می‌شود مشخص می‌گردد، اما شناسه‌ای که پس از آن می‌آید داخل تک‌کوتیشن قرار می‌گیرد، مانند <literal>&lt;&lt;&lt;'EOT'</literal>. تمام قوانین مربوط به شناسه‌های heredoc برای nowdoc نیز اعمال می‌شود، به‌ویژه قوانینی که مربوط به نحوه ظاهر شدن شناسه پایانی هستند.
+   </para>
+
+   <example>
+    <title>مثال از کوتیشن رشته در Nowdoc</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+echo <<<'EOD'
+مثالی از رشته‌ای که با استفاده از سینتکس nowdoc 
+در چند خط گسترده شده است. بک‌اسلش‌ها همیشه به‌صورت literal در نظر گرفته می‌شوند،
+مانند \\ و \'.
+EOD;
+]]>
+    </programlisting>
+    &example.outputs;
+    <screen>
+<![CDATA[
+مثالی از رشته‌ای که با استفاده از سینتکس nowdoc 
+در چند خط گسترده شده است. بک‌اسلش‌ها همیشه به‌صورت literal در نظر گرفته می‌شوند،
+مانند \\ و \'.
+]]>
+    </screen>
+   </example>
+
+   <example>
+    <title>مثال از کوتیشن رشته با متغیرها در Nowdoc</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+class foo
+{
+    public $foo;
+    public $bar;
+
+    function __construct()
+    {
+        $this->foo = 'Foo';
+        $this->bar = array('Bar1', 'Bar2', 'Bar3');
+    }
+}
+
+$foo = new foo();
+$name = 'MyName';
+
+echo <<<'EOT'
+اسم من "$name" است. دارم چاپ میکنم $foo->foo.
+حالا، چاپ دارم میکنم {$foo->bar[1]}.
+این نباید حرف بزرگ 'A' چاپ کند: \x41
+EOT;
+?>
+]]>
+    </programlisting>
+    &example.outputs;
+    <screen>
+<![CDATA[
+اسم من "$name" است. دارم چاپ میکنم $foo->foo.
+حالا، چاپ دارم میکنم {$foo->bar[1]}.
+این نباید حرف بزرگ 'A' چاپ کند: \x41]]>
+    </screen>
+   </example>
+
+   <example>
+    <title>مثال داده ایستا (static data)</title>
+    <programlisting role="php" annotations="non-interactive">
+<![CDATA[
+<?php
+class foo {
+    public $bar = <<<'EOT'
+bar
+EOT;
+}
+?>
+]]>
+    </programlisting>
+   </example>
+
+  </sect3>
+
+  <sect3 xml:id="language.types.string.parsing">
+   <title>جاگذاری در رشته</title>
+
+   <simpara>
+    هنگامی که یک <type>رشته</type> با دابل‌کوتیشن (double quotes) یا heredoc مشخص شود، می‌توان <link linkend="language.variables">متغیرها</link> را درون آن جایگزین (substitute) کرد.
+   </simpara>
+
+   <simpara>
+    دو نوع سینتکس برای این کار وجود دارد: یک سینتکس <link linkend="language.types.string.parsing.basic">ساده (basic)</link> و یک سینتکس <link linkend="language.types.string.parsing.advanced">پیشرفته (advanced)</link>. سینتکس ساده رایج‌ترین و راحت‌ترین روش است. این روش امکان قرار دادن یک متغیر، یک مقدار از <type>آرایه</type> یا یک <type>ویژگی (property)</type> از یک <type>شیء (object)</type> را درون <type>رشته</type>، با کمترین میزان تلاش فراهم می‌کند.
+   </simpara>
+
+   <sect4 xml:id="language.types.string.parsing.basic">
+    <title>سینتکس ساده</title>
+    <simpara>
+        اگر علامت دلار (<literal>$</literal>) مشاهده شود، کاراکترهای بعد از آن که می‌توانند بخشی از نام یک متغیر باشند، به‌عنوان نام متغیر تفسیر شده و مقدار آن جایگزین (substitute) می‌شود.
+    </simpara>
+    <example>
+     <title>جاگذاری در رشته</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+$juice = "سیب";
+
+echo "او مقداری آب $juice نوشید." . PHP_EOL;
+
+?>
+]]>
+     </programlisting>
+     &example.outputs;
+     <screen>
+<![CDATA[
+او مقداری آب سیب نوشید.
+]]>
+     </screen>
+    </example>
+
+    <simpara>
+     به‌صورت رسمی، ساختار سینتکس ساده برای جایگزینی متغیرها به شکل زیر است:
+    </simpara>
+    <informalexample>
+     <programlisting>
+<![CDATA[
+string-variable::
+     variable-name   (offset-or-property)?
+   | ${   expression   }
+
+offset-or-property::
+     offset-in-string
+   | property-in-string
+
+offset-in-string::
+     [   name   ]
+   | [   variable-name   ]
+   | [   integer-literal   ]
+
+property-in-string::
+     ->  name
+
+variable-name::
+     $   name
+
+name::
+     [a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*
+
+]]>
+     </programlisting>
+    </informalexample>
+
+    <warning>
+     <para>
+        سینتکس <literal>${ expression }</literal> از PHP 8.2.0 به بعد منسوخ‌شده است، زیرا ممکن است به‌عنوان <link linkend="language.variables.variable">متغیرهای متغیر (variable variables)</link> تفسیر شود:
+      <informalexample>
+       <programlisting role="php">
+<![CDATA[
+<?php
+const foo = 'bar';
+$foo = 'foo';
+$bar = 'bar';
+var_dump("${foo}");
+var_dump("${(foo)}");
+?>
+]]>
+       </programlisting>
+       &example.outputs.82;
+       <screen>
+<![CDATA[
+Deprecated: Using ${var} in strings is deprecated, use {$var} instead in file on line 6
+
+Deprecated: Using ${expr} (variable variables) in strings is deprecated, use {${expr}} instead in file on line 9
+string(3) "foo"
+string(3) "bar"
+]]>
+       </screen>
+       &example.outputs;
+       <screen>
+<![CDATA[
+string(3) "foo"
+string(3) "bar"
+]]>
+       </screen>
+      </informalexample>
+      باید از سینتکس <link linkend="language.types.string.parsing.advanced">پیشرفته‌</link> جاگذاری در رشته (string interpolation) به جای آن استفاده شود.
+     </para>
+    </warning>
+
+    <note>
+     <simpara>
+        اگر امکان تشکیل یک نام معتبر وجود نداشته باشد، علامت دلار به‌صورت عیناً (verbatim) در رشته باقی می‌ماند.
+     </simpara>
+     <informalexample>
+      <programlisting role="php">
+<![CDATA[
+<?php
+echo "جاگذاری $ اتفاق نمی افتد\n";
+echo "جاگذاری $\n اتفاق نمی افتد\n";
+echo "جاگذاری $2 اتفاق نمی افتد\n";
+?>
+]]>
+      </programlisting>
+      &example.outputs;
+      <screen>
+<![CDATA[
+جاگذاری $ اتفاق نمی افتد
+جایگذاری $
+ اتفاق نمی افتد
+جاگذاری $2 اتفاق نمی افتد
+]]>
+      </screen>
+     </informalexample>
+    </note>
+
+    <example>
+     <title>جاگذاری مقدار بعد اول یک آرایه یا ویژگی (property) یک شیء (object)</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+$juices = array("سیب", "پرتقال", "string_key" => "بنفش");
+
+echo "او مقداری آبمیوه $juices[0] نوشید.";
+echo PHP_EOL;
+echo "او مقداری آبمیوه $juices[1] نوشید.";
+echo PHP_EOL;
+echo "او مقداری آبمیوه $juices[string_key] نوشید.";
+echo PHP_EOL;
+
+class A {
+    public $s = "رشته";
+}
+
+$o = new A();
+
+echo "مقدار شی: $o->s.";
+?>
+]]>
+     </programlisting>
+     &example.outputs;
+     <screen>
+<![CDATA[
+او مقداری آبمیوه سیب نوشید.
+او مقداری آبمیوه پرتقال نوشید.
+او مقداری آبمیوه بنفش نوشید.
+مقدار شی: رشته.
+]]>
+     </screen>
+    </example>
+
+    <note>
+     <simpara>
+      کلید (key) آرایه باید بدون کوتیشن نوشته شود، و بنابراین در سینتکس ساده نمی‌توان از یک ثابت (constant) به‌عنوان کلید استفاده کرد. در عوض باید از سینتکس <link linkend="language.types.string.parsing.advanced">پیشرفته</link> استفاده شود.
+     </simpara>
+    </note>
+
+    <simpara>
+     از PHP 7.1.0 به بعد، اندیس‌های عددی <emphasis>منفی</emphasis> نیز پشتیبانی می‌شوند.
+    </simpara>
+
+    <example><title>اندیس های عددی منفی</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+$string = 'string';
+echo "کاراکتر در اندیس -2 برابر است با $string[-2].", PHP_EOL;
+$string[-3] = 'o';
+echo "تغییر کاراکتر در اندیس -3 به حرف o برابر می شود با $string.", PHP_EOL;
+?>
+]]>
+     </programlisting>
+     &example.outputs;
+     <screen>
+<![CDATA[
+کاراکتر در اندیس -2 برابر است با n.
+تغییر کاراکتر در اندیس -3 به حرف o برابر می شود با strong.
+]]>
+     </screen>
+    </example>
+
+    <simpara>
+     برای هرچیز پیچیده ای باید سینتکس <link linkend="language.types.string.parsing.advanced">پیشرفته</link> استفاده شود.
+    </simpara>
+   </sect4>
+
+   <sect4 xml:id="language.types.string.parsing.advanced">
+    <title>سینتکس پیشرفته (آکولادی / curly syntax)</title>
+
+    <simpara>
+    سینتکس پیشرفته (advanced syntax) امکان جاگذاری <emphasis>متغیرها</emphasis> را با دسترسی‌دهنده‌های (accessors) دلخواه فراهم می‌کند.
+    </simpara>
+
+    <simpara>
+     هر متغیر اسکالر (scalar)، عنصر آرایه یا ویژگی (property) یک شیء (چه ایستا (<modifier>static</modifier>) و چه غیرایستا) که نمایش رشته‌ای (<type>string</type> representation) داشته باشد، می‌تواند با استفاده از این سینتکس درون‌یابی شود. عبارت (expression) دقیقاً همان‌طور نوشته می‌شود که خارج از <type>string</type> نوشته می‌شود، سپس داخل <literal>{</literal> و <literal>}</literal> قرار می‌گیرد. از آنجا که کاراکتر <literal>{</literal> قابل escape کردن نیست، این سینتکس فقط زمانی تشخیص داده می‌شود که علامت <literal>$</literal> بلافاصله بعد از <literal>{</literal> قرار گیرد. برای به‌دست آوردن رشته‌ی literal برابر با <literal>{$</literal>، از <literal>{\$</literal> استفاده کنید. چند مثال برای روشن‌تر شدن موضوع:
+    </simpara>
+
+    <example>
+     <title>سینتکس آکولادی (Curly Syntax)</title>
+     <programlisting role="php">
+<![CDATA[
+<?php
+const DATA_KEY = 'const-key';
+$great = 'فوق‌العاده';
+$arr = [
+    '1',
+    '2',
+    '3',
+    [41, 42, 43],
+    'key' => 'مقدار اندیس',
+    'const-key' => 'کلید با علاکت منفی',
+    'foo' => ['foo1', 'foo2', 'foo3']
+];
+
+// کار نمی کنه, خروجی: این { فوق العاده} است
+echo "این { $great} است" . PHP_EOL;
+
+// کار میکنه, خروجی: این فوق العاده است
+echo "این {$great} است" . PHP_EOL;
+
+// برای نمایش آکولاد در خروجی:
+echo "این {{$great}} است" . PHP_EOL;
+
+class Square {
+    public $width;
+
+    public function __construct(int $width) { $this->width = $width; }
+}
+
+$square = new Square(5);
+
+// کار می کنه
+echo "این مربع {$square->width}00 سانتی‌متر عرض دارد." . PHP_EOL;
+
+
+// کار می کنه, کلید های کوتیشن دار زمانی کار میکنن که از سینتکس آکولادی استفاده شود
+echo "این کار می کنه: {$arr['key']}" . PHP_EOL;
+
+
+// کار می کنه
+echo "این کار میکنه: {$arr[3][2]}" . PHP_EOL;
+
+echo "این کار می کنه: {$arr[DATA_KEY]}" . PHP_EOL;
+
+// هنگام استفاده از آرایه‌های چندبعدی، همیشه از آکولاد برای مشخص کردن آرایه‌ها استفاده کنید.
+// هنگامی که داخل رشته‌ها قرار دارند
+echo "این کار می کنه: {$arr['foo'][2]}" . PHP_EOL;
+
+echo "این کار می کنه: {$obj->values[3]->name}" . PHP_EOL;
+
+echo "این کار می کنه: {$obj->$staticProp}" . PHP_EOL;
+
+// کار نمی کنه خروجی،: C:\directory\{fantastic}.txt
+echo "C:\directory\{$great}.txt" . PHP_EOL;
+
+// کار می کنه خروجی،: C:\directory\fantastic.txt
+echo "C:\\directory\\{$great}.txt" . PHP_EOL;
+?>
+]]>
+     </programlisting>
+    </example>
+
+    <note>
+     <simpara>
+      از آنجا که این سینتکس اجازه‌ی استفاده از عبارت‌های دلخواه (arbitrary expressions) را می‌دهد، استفاده از <link linkend="language.variables.variable">متغیرهای متغیر</link> نیز در سینتکس پیشرفته امکان‌پذیر است.
+     </simpara>
+    </note>
+   </sect4>
+  </sect3>
+
+  <sect3 xml:id="language.types.string.substr">
+   <title>دسترسی و تغییر رشته بر اساس کاراکتر</title>
+
+   <para>
+    کاراکترهای داخل <type>رشته‌</type>ها را می‌توان با مشخص کردن آفست (offset) مبتنی بر صفرِ کاراکتر مورد نظر بعد از <type>رشته</type>، با استفاده از براکت‌های مربعی آرایه (square <type>array</type> brackets) دسترسی یا تغییر داد، مانند <varname>$str[42]</varname>. برای این منظور می‌توان <type>رشته</type> را مانند یک <type>آرایه</type> از کاراکترها در نظر گرفت. توابع <function>substr</function> و <function>substr_replace</function> زمانی استفاده می‌شوند که بخواهید بیش از یک کاراکتر را استخراج یا جایگزین کنید.
+   </para>
+
+   <note>
+    <simpara>
+     از PHP 7.1.0 به بعد، آفست‌های منفی در رشته‌ها نیز پشتیبانی می‌شوند. این آفست‌ها موقعیت را از انتهای رشته مشخص می‌کنند. در نسخه‌های قبلی، آفست‌های منفی هنگام خواندن باعث ایجاد <constant>E_NOTICE</constant> (و در نتیجه بازگرداندن یک رشته خالی) و هنگام نوشتن باعث <constant>E_WARNING</constant> می‌شدند (و رشته بدون تغییر باقی می‌ماند).
+    </simpara>
+   </note>
+
+   <note>
+    <simpara>
+     پیش از PHP 8.0.0، امکان دسترسی به <type>رشته‌</type>ها با استفاده از آکولادها نیز وجود داشت، مانند <varname>$str{42}</varname>، برای همان منظور. این سینتکس آکولادی از PHP 7.4.0 منسوخ (deprecated) شد و از PHP 8.0.0 به بعد دیگر پشتیبانی نمی‌شود.
+    </simpara>
+   </note>
+
+   <warning>
+    <simpara>
+     نوشتن در یک آفست خارج از محدوده باعث می‌شود رشته با فاصله (space) پر شود. انواع عدد غیرصحیح (non-integer) به عدد صحیح (integer) تبدیل می‌شوند. نوع نامعتبرِ آفست (illegal offset type) باعث ایجاد <constant>E_WARNING</constant> می‌شود. هنگام انتساب، فقط اولین کاراکتر رشته استفاده می‌شود. از PHP 7.1.0 به بعد، انتساب یک رشته خالی (empty string) باعث ایجاد خطای fatal می‌شود. در نسخه‌های قبلی، یک NULL byte مقداردهی می‌شد.
+    </simpara>
+   </warning>
+
+   <warning>
+    <simpara>
+     ذاتا، رشته‌های PHP آرایه‌هایی از بایت‌ها هستند. در نتیجه، دسترسی یا تغییر یک رشته با استفاده از براکت‌های آرایه‌ای (array brackets) برای کاراکترهای چندبایتی (multi-byte) ایمن نیست و فقط باید با رشته‌هایی انجام شود که در یک انکودینگ تک‌بایتی مانند ISO-8859-1 هستند.
+    </simpara>
+   </warning>
+
+   <note>
+    <simpara>
+     از PHP 7.1.0 به بعد، استفاده از عملگر اندیس خالی (empty index operator) روی یک رشته‌ی خالی باعث ایجاد خطای fatal می‌شود. در نسخه‌های قبلی، رشته‌ی خالی به‌صورت بی‌صدا (silently) به آرایه تبدیل می‌شد.
+    </simpara>
+   </note>
+
+   <example>
+    <title>مثال هایی از رشته ها</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+// گرفتن اولین کاراکتر رشته
+$str = 'این یک تست است.';
+$first = $str[0];
+var_dump($first);
+
+// گرفتن سومین کاراکتر رشته
+$third = $str[2];
+var_dump($third);
+
+// گرفتن اخرین کاراکتر رشته.
+$str = 'این هنوز یک تست است.';
+$last = $str[strlen($str)-1];
+var_dump($last);
+
+// تغییر آخرین کاراکتر یک رشته
+$str = 'Look at the sea';
+$str[strlen($str)-1] = 'e';
+var_dump($str);
+?>
+]]>
+    </programlisting>
+   </example>
+
+   <para>
+    آفست‌های رشته باید یا عدد صحیح (integer) باشند یا رشته‌هایی شبیه عدد صحیح (integer-like strings)، در غیر این صورت یک هشدار (warning) صادر خواهد شد.
+   </para>
+
+   <example>
+    <title>مثال از افست های رشته نامعتبر</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+$str = 'abc';
+
+$keys = [ '1', '1.0', 'x', '1x' ];
+
+foreach ($keys as $keyToTry) {
+    var_dump(isset($str[$keyToTry]));
+
+    try {
+        var_dump($str[$keyToTry]);
+    } catch (TypeError $e) {
+        echo $e->getMessage(), PHP_EOL;
+    }
+
+    echo PHP_EOL;
+}
+?>
+]]>
+    </programlisting>
+    &example.outputs;
+    <screen>
+<![CDATA[
+bool(true)
+string(1) "b"
+
+bool(false)
+Cannot access offset of type string on string
+
+bool(false)
+Cannot access offset of type string on string
+
+bool(false)
+
+Warning: Illegal string offset "1x" in Standard input code on line 10
+string(1) "b"
+]]>
+    </screen>
+   </example>
+
+   <note>
+    <para>
+     دسترسی به متغیرهای از انواع دیگر (به‌جز آرایه‌ها یا اشیایی که interfaceهای مناسب را پیاده‌سازی کرده‌اند) با استفاده از <literal>[]</literal> یا <literal>{}</literal> به‌صورت بی‌صدا (silently) مقدار &null; را برمی‌گرداند.
+    </para>
+   </note>
+
+   <note>
+    <para>
+     با استفاده از <literal>[]</literal> یا <literal>{}</literal> می توان به کاراکتر های داخل رشته دسترسی پیدا کرد.
+    </para>
+   </note>
+
+   <note>
+    <para>
+     دسترسی به کاراکترهای درون رشته با استفاده از سینتکس <literal>{}</literal> در PHP 7.4 منسوخ شده است. این سینتکس در PHP 8.0 برداشته شد.
+    </para>
+   </note>
+  </sect3>
+ </sect2><!-- end syntax -->
+
+ <sect2 xml:id="language.types.string.useful-funcs">
+  <title>توابع و عملگر های کاربردی</title>
+
+  <para>
+    <type>رشته‌</type>ها را می‌توان با استفاده از عملگر `.` (نقطه) به هم الحاق (concatenate) کرد. توجه داشته باشید که عملگر `+` (جمع) برای این کار کار <emphasis>نخواهد کرد</emphasis>. برای اطلاعات بیشتر به بخش <link linkend="language.operators.string">عملگرهای رشته</link> مراجعه کنید.
+  </para>
+
+  <para>
+   تعدادی توابع کاربردی برای دستکاری رشته‌ها وجود دارد.
+  </para>
+
+  <simpara>
+   برای توابع عمومی، به <link linkend="ref.strings">بخش توابع رشته</link> مراجعه کنید، و برای قابلیت‌های پیشرفته‌ی جست‌وجو و جایگزینی (find &amp; replace)، به توابع عبارات منظم سازگار با Perl (<link linkend="ref.pcre">Perl-compatible regular
+   expression functions</link>) نگاه کنید.
+  </simpara>
+
+  <simpara>
+   همچنین <link linkend="ref.url">توابعی برای رشته‌های URL</link> وجود دارد، و توابعی برای رمزگذاری/رمزگشایی رشته‌ها (<link linkend="ref.sodium">Sodium</link> و
+   <link linkend="ref.hash">Hash</link>) نیز در دسترس هستند.
+  </simpara>
+
+  <simpara>
+    در نهایت، همچنین به <link linkend="ref.ctype">توابع نوع کاراکتر</link> نیز مراجعه کنید.
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="language.types.string.casting">
+  <title>تبدیل به رشته</title>
+
+  <para>
+    یک مقدار را می‌توان با استفاده از cast به نوع <literal>(string)</literal> یا تابع <function>strval</function> به <type>رشته</type> تبدیل کرد. تبدیل به <type>رشته</type> به‌صورت خودکار در محدوده‌ی یک عبارت (expression) که به <type>رشته</type> نیاز دارد انجام می‌شود. این حالت هنگام استفاده از توابع <function>echo</function> یا <function>print</function>، یا زمانی که یک متغیر با یک <type>رشته</type> مقایسه می‌شود رخ می‌دهد. بخش‌های مربوط به <link linkend="language.types">انواع داده (Types)</link> و <link linkend="language.types.type-juggling">Type Juggling</link> این موضوع را واضح‌تر توضیح خواهند داد. همچنین به تابع <function>settype</function> نیز مراجعه کنید.
+  </para>
+
+  <para>
+    مقدار <type>bool</type> &true; به رشته‌ی <literal>"1"</literal> تبدیل می‌شود. مقدار <type>bool</type> &false; به <literal>""</literal> (رشته‌ی خالی) تبدیل می‌شود. این امکان تبدیل رفت و برگشتی بین مقادیر <type>bool</type> و <type>رشته‌</type>ای را فراهم می‌کند.
+  </para>
+
+  <para>
+    یک عدد صحیح (<type>int</type>) یا عدد اعشاری (<type>float</type>) به <type>رشته‌</type>ای تبدیل می‌شود که نمایش متنی آن عدد را نشان می‌دهد (و برای <type>float</type>ها شامل بخش توان (exponent) نیز می‌شود). اعداد اعشاری می‌توانند با نماد علمی (exponential notation) تبدیل شوند، مانند <literal>4.1E+6</literal>.
+  </para>
+
+  <note>
+   <para>
+    از PHP 8.0.0 به بعد، کاراکتر نقطه‌ی اعشاری همیشه نقطه ("<literal>.</literal>") است. در نسخه‌های قبل از PHP 8.0.0، این کاراکتر بر اساس تنظیمات locale اسکریپت (بخش LC_NUMERIC) تعیین می‌شد. برای اطلاعات بیشتر به تابع <function>setlocale</function> مراجعه کنید.
+   </para>
+  </note>
+
+  <para>
+    <type>آرایه‌</type>ها همیشه به <type>رشته‌</type>ی <literal>"Array"</literal> تبدیل می‌شوند؛ به همین دلیل، توابع <function>echo</function> و
+   <function>print</function> به‌تنهایی نمی‌توانند محتوای یک <type>آرایه‌</type> را نمایش دهند. برای دیدن یک عنصر خاص، باید از ساختاری مانند <literal>echo $arr['foo']</literal> استفاده کنید. برای مشاهده‌ی کل محتوا، به توضیحات بعدی مراجعه کنید.
+  </para>
+
+  <para>
+    برای تبدیل اشیاء (<type>object</type>s) به <type>رشته</type>، باید از متد جادویی <link linkend="language.oop5.magic">__toString</link> استفاده شود.
+  </para>
+
+  <para>
+   منابع (<type>Resource</type>s) همیشه به <type>رشته‌</type>هایی با ساختار <literal>"Resource id #1"</literal> تبدیل می‌شوند، که در آن عدد <literal>1</literal> شماره‌ای است که PHP در زمان اجرا به آن <type>resource</type> اختصاص می‌دهد. اگرچه نباید روی ساختار دقیق این رشته تکیه کرد و ممکن است تغییر کند، اما در طول اجرای یک اسکریپت (مثلاً یک درخواست وب یا اجرای CLI) برای هر resource یکتا خواهد بود و دوباره استفاده نمی‌شود. برای به‌دست آوردن نوع یک <type>resource</type> می‌توان از تابع <function>get_resource_type</function> استفاده کرد.
+  </para>
+
+  <para>
+   &null; همیشه به یک رشته خالی تبدیل می شود.
+  </para>
+
+  <para>
+   همان‌طور که در بالا گفته شد، تبدیل مستقیم یک <type>آرایه</type>، <type>object</type> یا <type>resource</type> به <type>رشته</type>، اطلاعات مفیدی درباره مقدار آن ارائه نمی‌دهد و فقط نوع آن را نشان می‌دهد. برای بررسی بهتر محتوای این نوع داده‌ها، به توابع <function>print_r</function> و <function>var_dump</function> مراجعه کنید.
+  </para>
+
+  <para>
+   بیشتر مقادیر در PHP همچنین می‌توانند برای ذخیره‌سازی دائمی به <type>رشته</type> تبدیل شوند. این روش سریال‌سازی (serialization) نام دارد و با استفاده از تابع <function>serialize</function> انجام می‌شود.
+  </para>
+
+ </sect2>
+
+ <sect2 xml:id="language.types.string.details">
+
+  <title>جزئیاتی از نوع رشته</title>
+
+  <para>
+    <type>رشته</type> در PHP به‌صورت یک آرایه از بایت‌ها و یک عدد صحیح که طول بافر را مشخص می‌کند پیاده‌سازی شده است. این ساختار هیچ اطلاعاتی درباره اینکه این بایت‌ها چگونه به کاراکترها تبدیل می‌شوند در اختیار ندارد و این وظیفه را به برنامه‌نویس واگذار می‌کند. هیچ محدودیتی برای مقادیر تشکیل‌دهنده‌ی رشته وجود ندارد؛ به‌ویژه بایت‌هایی با مقدار <literal>0</literal> (که به آن‌ها «NUL byte» گفته می‌شود) می‌توانند در هر جای رشته قرار بگیرند. با این حال، برخی توابع که در این مستندات به‌عنوان «binary safe» شناخته نمی‌شوند، ممکن است رشته‌ها را به کتابخانه‌هایی تحویل دهند که داده‌ها را پس از رسیدن به یک NUL byte نادیده می‌گیرند.
+  </para>
+  <para>
+    این ماهیت نوع رشته (string) توضیح می‌دهد که چرا در PHP نوع جداگانه‌ای به نام «byte» وجود ندارد — زیرا رشته‌ها این نقش را بر عهده دارند. توابعی که داده‌ی متنی برنمی‌گردانند — برای مثال، داده‌های خام (arbitrary data) که از یک سوکت شبکه خوانده می‌شوند — همچنان به‌صورت رشته بازگردانده می‌شوند.
+  </para>
+  <para>
+    با توجه به اینکه PHP یک encoding مشخص برای رشته‌ها تعیین نمی‌کند، ممکن است این سؤال پیش بیاید که رشته‌های literal چگونه کدگذاری می‌شوند. برای مثال، آیا رشته <literal>"á"</literal> معادل <literal>"\xE1"</literal> (ISO-8859-1)، یا <literal>"\xC3\xA1"</literal> (UTF-8، حالت C)، یا <literal>"\x61\xCC\x81"</literal> (UTF-8، حالت D)، یا هر نمایش دیگری است؟ پاسخ این است که رشته‌ها به همان شکلی کدگذاری می‌شوند که فایل اسکریپت در آن کدگذاری شده است. بنابراین اگر اسکریپت با ISO-8859-1 نوشته شده باشد، رشته نیز به همان صورت ISO-8859-1 کدگذاری خواهد شد و به همین ترتیب برای سایر encodingها. با این حال، اگر Zend Multibyte فعال باشد، این موضوع متفاوت است؛ در این حالت ممکن است اسکریپت با یک encoding دلخواه (که به‌طور صریح مشخص شده یا به‌صورت خودکار تشخیص داده می‌شود) نوشته شود و سپس به یک encoding داخلی خاص تبدیل شود، و رشته‌های literal نیز با همان encoding داخلی ذخیره خواهند شد. توجه داشته باشید که برای encoding اسکریپت (یا encoding داخلی در صورت فعال بودن Zend Multibyte) محدودیت‌هایی وجود دارد — معمولاً این encoding باید یک superset سازگار با ASCII باشد، مانند UTF-8 یا ISO-8859-1. با این حال، encodingهای وابسته به حالت (state-dependent) که در آن‌ها مقادیر بایت‌ها در حالت‌های مختلف shift می‌توانند متفاوت تفسیر شوند، ممکن است مشکل‌ساز باشند.
+  </para>
+  <para>
+   البته برای اینکه توابعی که روی متن کار می‌کنند قابل استفاده باشند، ممکن است لازم باشد درباره نحوه‌ی کدگذاری رشته‌ها (encoding) برخی فرض‌ها در نظر بگیرند. متأسفانه در این مورد، در توابع مختلف PHP تنوع زیادی وجود دارد:
+  </para>
+  <itemizedlist>
+   <listitem>
+    <simpara>
+     برخی توابع فرض می‌کنند که رشته در یک encoding تک‌بایتی (single-byte) کدگذاری شده است، اما نیازی ندارند آن بایت‌ها را به‌عنوان کاراکترهای مشخص تفسیر کنند. این موضوع برای مثال در توابعی مانند <function>substr</function>, <function>strpos</function>, <function>strlen</function> یا <function>strcmp</function> صدق می‌کند. راه دیگر برای درک این توابع این است که آن‌ها روی بافرهای حافظه (memory buffers) عمل می‌کنند؛ یعنی با بایت‌ها و آفست‌های بایتی کار می‌کنند.
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     برخی توابع دیگر، encoding رشته به آن‌ها داده می‌شود و در صورت عدم ارائه این اطلاعات، ممکن است یک مقدار پیش‌فرض را در نظر بگیرند. این موضوع در مورد <function>htmlentities</function> و بیشتر توابع موجود در افزونه‌ی <link linkend="book.mbstring">mbstring</link> صدق می‌کند.
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     برخی دیگر از توابع از locale فعلی (نگاه کنید به <function>setlocale</function>) استفاده می‌کنند، اما همچنان به‌صورت بایت‌به‌بایت (byte-by-byte) عمل می‌کنند.
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     در نهایت، برخی توابع ممکن است به‌طور پیش‌فرض فرض کنند که رشته از یک encoding مشخص، معمولاً UTF-8، استفاده می‌کند. این موضوع در مورد بیشتر توابع موجود در افزونه‌ی <link linkend="book.intl">intl</link> و افزونه‌ی <link linkend="book.pcre">PCRE</link> صدق می‌کند (در حالت دوم، تنها زمانی که از modifier <literal>u</literal> استفاده شده باشد).
+    </simpara>
+   </listitem>
+  </itemizedlist>
+
+  <para>
+   در نهایت، این به این معناست که نوشتن برنامه‌های صحیح با استفاده از یونیکد (Unicode) به اجتناب دقیق از توابعی بستگی دارد که با آن سازگار نیستند و احتمالاً داده‌ها را خراب می‌کنند، و در عوض استفاده از توابعی که رفتار درستی دارند — معمولاً از افزونه‌های <link linkend="book.intl">intl</link> و <link linkend="book.mbstring">mbstring</link> — ضروری است. با این حال، استفاده از توابعی که از encodingهای یونیکد پشتیبانی می‌کنند تنها آغاز کار است. فارغ از توابعی که زبان در اختیار قرار می‌دهد، آشنایی با مشخصات Unicode کاملاً ضروری است. برای مثال، برنامه‌ای که فرض می‌کند فقط دو حالت «حروف بزرگ» و «حروف کوچک» وجود دارد، در واقع یک فرض اشتباه انجام داده است.
+  </para>
+ </sect2>
+</sect1><!-- end string -->
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
