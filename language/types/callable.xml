@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: 312c0c7b39d0722c419f6784cbda24823220dfb3 Maintainer: Mostafa Status: ready -->
+<sect1 xml:id="language.types.callable">
+ <title>مقادیر قابل فراخوانی (Callables)</title>
+
+ <simpara>
+  یک callable ارجاعی به یک تابع یا متد است که به‌عنوان آرگومان به تابع دیگری ارسال می‌شود. این نوع مقادیر با قید نوع <type>callable</type> مشخص می‌شوند.
+ </simpara>
+ <informalexample>
+  <programlisting role="php" annotations="non-interactive">
+<![CDATA[
+<?php
+function foo(callable $callback) {
+    $callback();
+}
+?>
+]]>
+  </programlisting>
+ </informalexample>
+
+ <simpara>
+  برخی از توابع، توابع فراخوانی (callback functions) را به‌عنوان پارامتر می‌پذیرند؛ برای مثال <function>array_map</function>, <function>usort</function>, یا
+  <function>preg_replace_callback</function>.
+ </simpara>
+
+ <sect2 xml:id="language.types.callable.passing">
+  <title>ایجاد callable ها</title>
+
+  <simpara>
+   callable نوعی است که نشان‌دهندهٔ چیزی است که می‌توان آن را فراخوانی کرد. مقادیر از نوع callable را می‌توان به‌عنوان آرگومان به توابع یا متدهایی که یک تابع فراخوانی (callback) را به‌عنوان پارامتر انتظار دارند، ارسال کرد، یا آن‌ها را مستقیماً فراخوانی نمود. نوع <type>callable</type> را نمی‌توان به‌عنوان قید نوع برای ویژگی‌های (properties) کلاس استفاده کرد؛ در عوض، باید از قید نوع <classname>Closure</classname> استفاده شود.
+  </simpara>
+
+  <simpara>
+   مقادیر callable را می‌توان به چندین روش مختلف ایجاد کرد:
+  </simpara>
+
+  <itemizedlist>
+   <listitem>
+    <simpara><classname>Closure</classname> object</simpara>
+   </listitem>
+   <listitem>
+    <simpara>&string; ای که شامل نام یک تابع یا متد باشد</simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     &array; ای که در اندیس 0 آن نام یک کلاس یا یک <type>شیء</type>، و در اندیس 1 آن نام متد قرار دارد.
+    </simpara>
+   </listitem>
+   <listitem>
+    <simpara>
+     &object; ای که متد جادویی <link linkend="object.invoke">__invoke()</link> را پیاده‌سازی کرده باشد.
+    </simpara>
+   </listitem>
+  </itemizedlist>
+
+  <simpara>
+   یک شیء <classname>Closure</classname> را می‌توان با استفاده از سینتکس تابع ناشناس (<link linkend="functions.anonymous">anonymous function</link>)، سینتکس تابع پیکانی (<link linkend="functions.arrow">arrow function</link>)، سینتکس <link linkend="functions.first_class_callable_syntax">first-class callable</link> یا متد <methodname>Closure::fromCallable</methodname> ایجاد کرد.
+  </simpara>
+
+  <note>
+   <simpara>
+    سینتکس <link linkend="functions.first_class_callable_syntax">first-class
+    callable</link> فقط از نسخهٔ PHP 8.1.0 به بعد در دسترس است.
+   </simpara>
+  </note>
+
+  <example>
+   <title>
+    نمونه‌ای از استفاده از یک <classname>Closure</classname> به‌عنوان تابع فراخوانی (callback).
+   </title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+// با استفاده از سینتکس anonymous function
+$double1 = function ($a) {
+    return $a * 2;
+};
+
+// با استفاده از سینتکس first-class callable
+function double_function($a) {
+    return $a * 2;
+}
+$double2 = double_function(...);
+
+// با استفاده از سینتکس arrow function
+$double3 = fn($a) => $a * 2;
+
+// با استفاده از Closure::fromCallable
+$double4 = Closure::fromCallable('double_function');
+
+// در اینجا از Closure به‌عنوان یک تابع فراخوانی (callback) استفاده می‌کنیم تا 
+// مقدار هر عنصر در محدودهٔ موردنظر را دو برابر کند
+$new_numbers = array_map($double1, range(1, 5));
+print implode(' ', $new_numbers) . PHP_EOL;
+
+$new_numbers = array_map($double2, range(1, 5));
+print implode(' ', $new_numbers) . PHP_EOL;
+
+$new_numbers = array_map($double3, range(1, 5));
+print implode(' ', $new_numbers) . PHP_EOL;
+
+$new_numbers = array_map($double4, range(1, 5));
+print implode(' ', $new_numbers);
+
+?>
+]]>
+   </programlisting>
+   &example.outputs.81;
+   <screen>
+<![CDATA[
+2 4 6 8 10
+2 4 6 8 10
+2 4 6 8 10
+2 4 6 8 10
+]]>
+   </screen>
+  </example>
+
+  <simpara>
+   یک callable همچنین می‌تواند رشته‌ای باشد که نام یک تابع یا یک متد ایستا (static method) را در خود دارد. هر تابع داخلی (built-in) یا تعریف‌شده توسط کاربر را می‌توان استفاده کرد، به‌جز سازه‌های زبان (language constructs) مانند <function>array</function>, <function>echo</function>,
+   <function>empty</function>, <function>eval</function>,
+   <function>isset</function>,
+   <function>list</function>, <function>print</function> یا
+   <function>unset</function>.
+  </simpara>
+
+  <simpara>
+   متدهای ایستای (static) کلاس را می‌توان بدون ایجاد نمونه‌ای از <type>شیء</type> آن کلاس استفاده کرد؛ برای این کار، یا می‌توان آرایه‌ای ایجاد کرد که در اندیس 0 آن نام کلاس و در اندیس 1 آن نام متد قرار داشته باشد، یا از سینتکس ویژه‌ای که از عملگر تعیین محدوده <literal>::</literal> استفاده می‌کند، مانند <literal>'ClassName::methodName'</literal>، بهره برد.
+  </simpara>
+
+  <simpara>
+   یک متد از یک <type>شیء</type> نمونه‌سازی‌شده نیز می‌تواند به‌عنوان callable استفاده شود، مشروط بر اینکه به‌صورت آرایه‌ای ارائه شود که در اندیس 0 آن <type>شیء</type> و در اندیس 1 آن نام متد قرار داشته باشد.
+  </simpara>
+
+  <simpara>
+   تفاوت اصلی بین یک شیء <classname>Closure</classname> و نوع callable این است که شیء <classname>Closure</classname> مستقل از محدودهٔ دسترسی (scope) است و همیشه می‌توان آن را فراخوانی کرد، در حالی که یک <type>callable</type> ممکن است به محدودهٔ دسترسی وابسته باشد و همیشه به‌طور مستقیم قابل فراخوانی نباشد. <classname>Closure</classname> روش ترجیحی برای ایجاد مقادیر قابل فراخوانی (callables) است.
+  </simpara>
+
+  <note>
+   <simpara>
+    در حالی که اشیای <classname>Closure</classname> به محدودهٔ دسترسی (scope)‌ای که در آن ایجاد شده‌اند وابسته هستند، callable هایی که به‌صورت رشته یا آرایه به متدهای کلاس اشاره می‌کنند، در محدوده‌ای که در آن فراخوانی می‌شوند، تفسیر و تعیین می‌گردند. برای ایجاد یک callable از یک متد private یا protected که سپس بتوان آن را از خارج از محدودهٔ کلاس فراخوانی کرد، از <methodname>Closure::fromCallable</methodname> یا سینتکس <link linkend="functions.first_class_callable_syntax">first-class callable</link> استفاده کنید.
+   </simpara>
+  </note>
+
+  <simpara>
+   PHP امکان ایجاد callable هایی را فراهم می‌کند که می‌توان از آن‌ها به‌عنوان آرگومان یک callback استفاده کرد، اما نمی‌توان آن‌ها را مستقیماً فراخوانی کرد. این‌ها callableهای وابسته به زمینه (context-dependent) هستند که به یک متد کلاس در سلسله‌مراتب وراثت اشاره می‌کنند؛ برای مثال <literal>'parent::method'</literal> یا <literal>["static", "method"]</literal>.
+  </simpara>
+
+  <note>
+   <simpara>
+    از نسخهٔ PHP 8.2.0 به بعد، استفاده از callable های وابسته به زمینه (context-dependent callables) منسوخ (deprecated) شده است. برای حذف وابستگی به زمینه، به‌جای <literal>'parent::method'</literal> از <literal>parent::class . '::method'</literal> استفاده کنید، یا از سینتکس <link linkend="functions.first_class_callable_syntax">first-class callable</link> بهره ببرید.
+   </simpara>
+  </note>
+
+  <example>
+   <title>
+    فراخوانی انواع مختلف callable با استفاده از <function>call_user_function</function>.
+   </title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+
+// یه مثال از callback function
+function my_callback_function() {
+    echo 'hello world!', PHP_EOL;
+}
+
+// یه مثال از callback method
+class MyClass {
+    static function myCallbackMethod() {
+        echo 'Hello World!', PHP_EOL;
+    }
+}
+
+// Type 1: Simple callback
+call_user_func('my_callback_function');
+
+// Type 2: Static class method call
+call_user_func(['MyClass', 'myCallbackMethod']);
+
+// Type 3: Object method call
+$obj = new MyClass();
+call_user_func([$obj, 'myCallbackMethod']);
+
+// Type 4: Static class method call
+call_user_func('MyClass::myCallbackMethod');
+
+// Type 5: Static class method call using ::class keyword
+call_user_func([MyClass::class, 'myCallbackMethod']);
+
+// Type 6: Relative static class method call
+class A {
+    public static function who() {
+        echo 'A', PHP_EOL;
+    }
+}
+
+class B extends A {
+    public static function who() {
+        echo 'B', PHP_EOL;
+    }
+}
+
+call_user_func(['B', 'parent::who']); // deprecated as of PHP 8.2.0
+
+// Type 7: Objects implementing __invoke can be used as callables
+class C {
+    public function __invoke($name) {
+        echo 'Hello ', $name;
+    }
+}
+
+$c = new C();
+call_user_func($c, 'PHP!');
+?>
+]]>
+   </programlisting>
+   &example.outputs;
+   <screen>
+<![CDATA[
+hello world!
+Hello World!
+Hello World!
+Hello World!
+Hello World!
+
+Deprecated: Callables of the form ["B", "parent::who"] are deprecated in script on line 41
+A
+Hello PHP!
+]]>
+   </screen>
+  </example>
+
+  &note.func-callback-exceptions;
+ </sect2>
+
+</sect1>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
